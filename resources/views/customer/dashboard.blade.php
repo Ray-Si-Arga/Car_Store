@@ -2,6 +2,6 @@
 @section('title', 'Dashboard Customer')
 @section('content')
 
-INI ADALAH CUSTOMER
+INI ADALAH DASHBOARD CUSTOMER
 
 @endsection

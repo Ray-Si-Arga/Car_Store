@@ -36,4 +36,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(Booking::class, 'customer_id');
     }
+
+    public function notifications()
+    {
+        return $this->hasMany(Notification::class, 'user_id')->latest()->get();
+    }
 }

@@ -64,18 +64,18 @@
 
         /* Warna Badge Kasta & Status */
         .badge-luxury {
-            background: #e0e7ff;
-            color: #4338ca;
+            background: #4338ca;
+            color: white;
         }
 
         .badge-family {
-            background: #fef3c7;
-            color: #92400e;
+            background: #92400e;
+            color: white;
         }
 
         .badge-economy {
-            background: #dcfce7;
-            color: #166534;
+            background: #166534;
+            color: white;
         }
 
         .badge-status {
@@ -214,10 +214,10 @@
         }
     </style>
 
-    <div class="header">
-        <h2>Manajemen Armada</h2>
-        <p style="color: #64748b; font-size: 14px;">Kelola unit kendaraan, kategori, dan harga sewa</p>
-    </div>
+    <x-page-header>
+        <x-slot:title>Manajemen Armada</x-slot:title>
+        <x-slot:subtitle>Kelola Unit Kendaraan</x-slot:subtitle>
+    </x-page-header>
 
     <div class="table-container">
         <div class="table-header">
@@ -251,48 +251,48 @@
 
                 <!-- Riwayat / Batal (Merah Soft) -->
                 <a href="javascript:void(0)" onclick="openCancelModal()" class="btn-add" style="
-                                            display:inline-flex;
-                                            align-items:center;
-                                            padding:8px 14px;
-                                            border-radius:6px;
-                                            font-weight:500;
-                                            text-decoration:none;
-                                            background:#fef2f2;
-                                            color:#b91c1c;
-                                            border:1px solid #fecaca;
-                                            transition:0.2s;">
+                                                        display:inline-flex;
+                                                        align-items:center;
+                                                        padding:8px 14px;
+                                                        border-radius:6px;
+                                                        font-weight:500;
+                                                        text-decoration:none;
+                                                        background:#fef2f2;
+                                                        color:#b91c1c;
+                                                        border:1px solid #fecaca;
+                                                        transition:0.2s;">
                     <i class="bx bx-history" style="font-size:15px;margin-right:6px;"></i>
                     Riwayat Event
                 </a>
 
                 <!-- Harga Event (Kuning Soft) -->
                 <a href="javascript:void(0)" onclick="openGlobalPriceModal()" class="btn-add" style="
-                                            display:inline-flex;
-                                            align-items:center;
-                                            padding:8px 14px;
-                                            border-radius:6px;
-                                            font-weight:500;
-                                            text-decoration:none;
-                                            background:#fef9c3;
-                                            color:#92400e;
-                                            border:1px solid #fde047;
-                                            transition:0.2s;">
+                                                        display:inline-flex;
+                                                        align-items:center;
+                                                        padding:8px 14px;
+                                                        border-radius:6px;
+                                                        font-weight:500;
+                                                        text-decoration:none;
+                                                        background:#fef9c3;
+                                                        color:#92400e;
+                                                        border:1px solid #fde047;
+                                                        transition:0.2s;">
                     <i class="bx bx-dollar-circle" style="font-size:15px;margin-right:6px;"></i>
                     Harga Event
                 </a>
 
                 <!-- Tambah Mobil (Primary Biru) -->
                 <a href="javascript:void(0)" onclick="openAddModal()" class="btn-add" style="
-                                            display:inline-flex;
-                                            align-items:center;
-                                            padding:8px 14px;
-                                            border-radius:6px;
-                                            font-weight:500;
-                                            text-decoration:none;
-                                            background:#2563eb;
-                                            color:#ffffff;
-                                            border:1px solid #1e40af;
-                                            transition:0.2s;">
+                                                        display:inline-flex;
+                                                        align-items:center;
+                                                        padding:8px 14px;
+                                                        border-radius:6px;
+                                                        font-weight:500;
+                                                        text-decoration:none;
+                                                        background:#2563eb;
+                                                        color:#ffffff;
+                                                        border:1px solid #1e40af;
+                                                        transition:0.2s;">
                     <i class='bx bx-plus-circle' style="font-size:15px;margin-right:6px;"></i>
                     Tambah Armada
                 </a>
@@ -321,7 +321,7 @@
                         <td>
                             @if($car->images->count() > 0)
                                 <img src="{{ asset('storage/' . $car->images->where('is_primary', true)->first()->file_path) }}"
-                                    style="width: 120px; height: 100px; object-fit: cover; border-radius: 8px;">
+                                    loading="Lazy" style="width: 120px; height: 100px; object-fit: cover; border-radius: 8px;">
                             @endif
                         </td>
 

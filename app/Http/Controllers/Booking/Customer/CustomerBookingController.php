@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Booking;
+namespace App\Http\Controllers\Booking\Customer;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -11,14 +11,14 @@ use App\Service\NotificationService;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 
-class BookingUserController extends Controller
+class CustomerBookingController extends Controller
 {
     // Halaman form booking
-    public function create($car_id)
+    public function form($car_id)
     {
         $car = Car::with('images')->findOrFail($car_id);
 
-        return view('customer.booking.create', compact('car'));
+        return view('customer.booking.form', compact('car'));
     }
 
     // Simpan booking baru (status: pending)
@@ -28,15 +28,15 @@ class BookingUserController extends Controller
             'car_id' => 'required|exists:cars,id',
             'no_telepon' => 'required|string|max:20',
             'lokasi_customer' => 'required|string|max:255',
-            'tanggal_sewa' => 'required|date|after_or_equal:today',
-            'tanggal_kembali' => 'required|date|after:tanggal_sewa',
+            'tanggal_mulai' => 'required|date|after_or_equal:today',
+            'tanggal_kembali' => 'required|date|after:tanggal_mulai',
             'catatan' => 'nullable|string',
         ]);
 
         $car = Car::findOrFail($request->car_id);
 
         // Hitung durasi dan total harga
-        $tanggalSewa = Carbon::parse($request->tanggal_sewa);
+        $tanggalSewa = Carbon::parse($request->tanggal_mulai);
         $tanggalKembali = Carbon::parse($request->tanggal_kembali);
         $durasi = $tanggalSewa->diffInDays($tanggalKembali);
         $totalHarga = $durasi * $car->harga_aktif;
@@ -46,7 +46,7 @@ class BookingUserController extends Controller
             'car_id' => $car->id,
             'no_telepon' => $request->no_telepon,
             'lokasi_customer' => $request->lokasi_customer,
-            'tanggal_sewa' => $request->tanggal_sewa,
+            'tanggal_mulai' => $request->tanggal_mulai,
             'tanggal_kembali' => $request->tanggal_kembali,
             'durasi_hari' => $durasi,
             'total_harga' => $totalHarga,
@@ -91,7 +91,7 @@ class BookingUserController extends Controller
             ->where('status', 'disetujui')
             ->firstOrFail();
 
-        return view('customer.booking.bayar', compact('booking'));
+        return view('customer.riwayat.bayar', compact('booking'));
     }
 
     // Simpan bukti bayar

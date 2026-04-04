@@ -1,6 +1,7 @@
 @extends('layouts.landing_page')
 @section('title', 'Mobil')
 @section('content.landing')
+@include('components.alert')
 
     @php
         $hariIni = \Carbon\Carbon::now();
@@ -142,10 +143,6 @@
             color: #ca8a04;
         }
 
-        /* 0a1024 orbit navy
-            0066ff electric blue */
-
-
         .btn-book {
             display: block;
             width: 100%;
@@ -209,6 +206,7 @@
                         </div>
                     @endif
 
+                    <small style="text-align: center; color: red; padding: 0 0 5px 0;">Login Diperlukan</small>
                     <a href="{{ route('customer.booking.create', $car->id) }}" class="btn-book">Sewa Sekarang</a>
                 </div>
             </div>

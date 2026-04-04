@@ -13,7 +13,7 @@ class Booking extends Model
         'car_id',
         'no_telepon',
         'lokasi_customer',
-        'tanggal_sewa',
+        'tanggal_mulai',
         'tanggal_kembali',
         'durasi_hari',
         'total_harga',

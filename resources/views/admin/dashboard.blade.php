@@ -70,9 +70,10 @@
     </style>
 
     <main>
-        <div class="header" style="margin-bottom: 20px;">
-            <h2>Ringkasan Dashboard</h2>
-        </div>
+        <x-page-header>
+            <x-slot:title>Dashboard</x-slot:title>
+            <x-slot:subtitle>Ringkasan Informasi</x-slot:subtitle>
+        </x-page-header>
 
         <div class="dashboard-container">
 
@@ -82,7 +83,10 @@
                     notifikasi
                     <i class="bx bx-bell" style="color: #635BFF;"></i>
                 </div>
-                <div class="card-value" style="font-size: 16px; font-weight: 300; margin-top: 10px;">Ada 3 pesan baru</div>
+                <div class="card-value" style="font-size: 16px; font-weight: 300; margin-top: 10px;">
+                    {{-- {{ $notifications->where('read', false)->count() }} --}}
+
+                </div>
             </div>
 
             {{-- Card User --}}

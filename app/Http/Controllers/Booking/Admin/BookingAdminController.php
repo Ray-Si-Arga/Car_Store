@@ -1,20 +1,20 @@
 <?php
 
-namespace App\Http\Controllers\Booking;
+namespace App\Http\Controllers\Booking\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Booking;
-use App\Models\User;
 use App\Service\NotificationService;
 use Illuminate\Support\Facades\Auth;
+
 
 class BookingAdminController extends Controller
 {
     // Daftar semua pesanan
     public function adminIndex(Request $request)
     {
-        $query = Booking::with(['customer', 'car']);
+        $query = Booking::with(['car', 'customer']);
 
         // Filter by status
         if ($request->has('status') && $request->status !== 'semua') {

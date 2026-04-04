@@ -22,7 +22,11 @@ class CarController extends Controller
 
         $globalPricings = GlobalPricing::all();
 
-        return view('admin.car.index', compact('cars', 'globalPricings'));
+        if(Auth()->user()->role == 'admin'){
+            return view('admin.car.index', compact('cars', 'globalPricings'));
+        }else{
+            return view('customer.car.index', compact('cars', 'globalPricings'));
+        }
     }
 
     // tambah mobil

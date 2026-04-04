@@ -16,7 +16,7 @@ return new class extends Migration {
             $table->foreignId('car_id')->constrained('cars')->cascadeOnDelete();
             $table->string('no_telepon');
             $table->string('lokasi_customer');
-            $table->date('tanggal_sewa');
+            $table->date('tanggal_mulai');
             $table->date('tanggal_kembali');
             $table->integer('durasi_hari');
             $table->decimal('total_harga', 12, 2);

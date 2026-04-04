@@ -2,10 +2,10 @@
 @section('content')
     <div class="container-fluid">
         <div class="card shadow-sm border-0">
-            <div class="card-header bg-white d-flex justify-content-between align-items-center">
-                <h5 class="mb-0">Pusat Notifikasi Real-time</h5>
-                <span class="badge bg-primary" id="notif-count">New</span>
-            </div>
+            <x-page-header>
+                <x-slot:title>Notifikasi</x-slot:title>
+                <x-slot:subtitle>Kelola Notifikasi</x-slot:subtitle>
+            </x-page-header>
             <div class="card-body p-0">
                 <div id="notification-list" style="height: 500px; overflow-y: auto;">
                     @foreach($notifications as $notif)
@@ -22,5 +22,5 @@
         </div>
     </div>
 
-    
+
 @endsection

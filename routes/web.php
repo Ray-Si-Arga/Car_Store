@@ -6,9 +6,9 @@ use App\Http\Controllers\Car\CarController;
 use App\Http\Controllers\Dashboard\DashboardController;
 use App\Http\Controllers\LandingPage\LandingPageController;
 use App\Http\Controllers\Notification\NotifController;
-use App\Http\Controllers\Booking\BookingAdminController;
+use App\Http\Controllers\Booking\Admin\BookingAdminController;
+use App\Http\Controllers\Booking\Customer\CustomerBookingController;
 use App\Http\Controllers\User\UserController;
-use App\Http\Controllers\Booking\BookingUserController;
 use App\Http\Controllers\PricingGlobe\PricingController;
 use Illuminate\Support\Facades\Route;
 
@@ -48,20 +48,21 @@ Route::post('/registrasi/aksi', [AuthController::class, 'registrasi_aksi'])->nam
 /**
  * ========= Customer Routes ==========
  */
-Route::group(['middleware' => ['auth']], function () {
+Route::group(['middleware' => ['cek.login', 'auth']], function () {
 
     // ======= Customer Dashboard ========
-    Route::get('customer/dashboard', function () {
-        return view('customer.dashboard');
-    });
+    Route::get('customer/dashboard', [DashboardController::class, 'indexCustomer'])->name('customer.dashboard');
+
+    // ========== Customer Car ========== 
+    Route::get('/customer/car', [CarController::class, 'index'])->name('customer.car');
 
     // ========== Customer Booking ========== 
-    Route::get('/customer/booking/create/{car_id}', [BookingUserController::class, 'create'])->name('customer.booking.create');
-    Route::post('/customer/booking/store', [BookingUserController::class, 'store'])->name('customer.booking.store');
-    Route::get('/customer/bookings', [BookingUserController::class, 'riwayat'])->name('customer.bookings');
-    Route::get('/customer/bookings/show', [BookingUserController::class, 'show'])->name('customer.bookings.show');
-    Route::get('/customer/booking/{id}/bayar', [BookingUserController::class, 'formBayar'])->name('customer.booking.bayar');
-    Route::post('/customer/booking/{id}/upload-bukti', [BookingUserController::class, 'uploadBukti'])->name('customer.booking.upload');
+    Route::get('/customer/booking/form/{car_id}', [CustomerBookingController::class, 'form'])->name('customer.booking.create');
+    Route::post('/customer/booking/store', [CustomerBookingController::class, 'store'])->name('customer.booking.store');
+    Route::get('/customer/riwayat', [CustomerBookingController::class, 'riwayat'])->name('customer.riwayat');
+    Route::get('/customer/riwayat/show', [CustomerBookingController::class, 'show'])->name('customer.riwayat.show');
+    Route::get('/customer/riwayat/{id}/bayar', [CustomerBookingController::class, 'formBayar'])->name('customer.riwayat.bayar');
+    Route::post('/customer/riwayat/{id}/upload-bukti', [CustomerBookingController::class, 'uploadBukti'])->name('customer.riwayat.upload');
 });
 
 

@@ -217,10 +217,10 @@
         }
     </style>
 
-    <div class="header">
-        <h2>Manajemen User</h2>
-        <p style="color: #64748b; font-size: 14px;">Kelola data pengguna dan hak akses</p>
-    </div>
+    <x-page-header>
+        <x-slot:title>Manage User</x-slot:title>
+        <x-slot:subtitle>Kelola User Secara Lengkap</x-slot:subtitle>
+    </x-page-header>
 
     <div class="table-container">
         <div class="table-header">

@@ -15,4 +15,10 @@ class DashboardController extends Controller
 
         return view('admin.dashboard' , compact('TotalUser'));
     }
+
+    // Menampilkan dashboard customer
+    public function indexCustomer()
+    {
+        return view('customer.dashboard');
+    }
 }

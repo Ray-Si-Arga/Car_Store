@@ -92,44 +92,6 @@
         list-style: none;
     }
 
-    .sidebar input {
-        font-size: 15px;
-        color: #fff;
-        font-weight: 400;
-        outline: none;
-        height: 50px;
-        width: 100%;
-        border: none;
-        border-radius: 12px;
-        transition: all 0.5s ease;
-        background: #1d1b31;
-    }
-
-    .sidebar.open input {
-        padding: 0 20px 0 50px;
-        width: 100%;
-    }
-
-    .sidebar .bx-search {
-        position: absolute;
-        top: 50%;
-        left: 0;
-        transform: translateY(-50%);
-        font-size: 22px;
-        background: #1d1b31;
-        color: #fff;
-    }
-
-    .sidebar .bx-search:hover {
-        background: #fff;
-        color: #11101D;
-    }
-
-    .sidebar.open .bx-search:hover {
-        background: #1d1b31;
-        color: #fff;
-    }
-
     .sidebar li i {
         height: 50px;
         line-height: 50px;
@@ -329,7 +291,9 @@
             <i class='bx bx-menu' id="btn" style="color: #000003"></i>
         </div>
         <ul class="nav-list">
-            @if (Auth::user() !== 'admin')
+            @if (Auth::user()->role == 'admin')
+
+                {{-- Dashboard Admin --}}
                 <li>
                     <a href="{{ route('admin.dashboard') }}">
                         <i class="bx bx-dashboard"></i>
@@ -338,6 +302,7 @@
                     <span class="tooltip">Dashboard</span>
                 </li>
 
+                {{-- User Admin --}}
                 <li>
                     <a href="{{ route('admin.user') }}">
                         <i class='bx bx-user'></i>
@@ -346,6 +311,7 @@
                     <span class="tooltip">User</span>
                 </li>
 
+                {{-- Notification Admin --}}
                 <li>
                     <a href="{{ route('admin.notification') }}">
                         <i class="bx bx-message-bubble-notification bx-flashing"></i>
@@ -353,39 +319,55 @@
                     </a>
                     <span class="tooltip">Notification</span>
                 </li>
+
+                {{-- Mobil Admin --}}
+                <li>
+                    <a href="{{ route('admin.car') }}">
+                        <i class='bx bx-car'></i>
+                        <span class="links_name">Daftar Mobil</span>
+                    </a>
+                    <span class="tooltip">Daftar Mobil</span>
+                </li>
+
+                {{-- Booking Admin --}}
+                <li>
+                    <a href="{{ route('admin.bookings') }}">
+                        <i class="bx bx-list-ul"></i>
+                        <span class="links_name">Daftar Booking</span>
+                    </a>
+                    <span class="tooltip">Daftar Booking</span>
+                </li>
             @else
 
+                {{-- Dashboard Customer --}}
+                <li>
+                    <a href="{{ route('customer.dashboard') }}">
+                        <i class="bx bx-dashboard"></i>
+                        <span class="links_name">Dashboard</span>
+                    </a>
+                    <span class="tooltip">Dashboard</span>
+                </li>
+
+                {{-- Sewa Mobil --}}
+                <li>
+                    <a href="{{ route('customer.car') }}">
+                        <i class="bx bx-car"></i>
+                        <span class="links_name">Sewa Mobil</span>
+                    </a>
+                    <span class="tooltip">Sewa Mobil</span>
+                </li>
+
+                {{-- Riwayat Pesanan --}}
+                <li>
+                    <a href="{{ route('customer.riwayat') }}">
+                        <i class="bx bx-history"></i>
+                        <span class="links_name">Riwayat Pesanan</span>
+                    </a>
+                    <span class="tooltip">Riwayat Pesanan</span>
+                </li>
             @endif
 
-
-            <li>
-                <a href="{{ route('admin.car') }}">
-                    <i class='bx bx-car'></i>
-                    <span class="links_name">Daftar Mobil</span>
-                </a>
-                <span class="tooltip">Daftar Mobil</span>
-            </li>
-            <li>
-                <a href="">
-                    <i class='bx bx-folder'></i>
-                    <span class="links_name">Files</span>
-                </a>
-                <span class="tooltip">Files</span>
-            </li>
-            <li>
-                <a href="">
-                    <i class='bx bx-cart-alt'></i>
-                    <span class="links_name">Order</span>
-                </a>
-                <span class="tooltip">Order</span>
-            </li>
-            <li>
-                <a href="">
-                    <i class='bx bx-heart'></i>
-                    <span class="links_name">Saved</span>
-                </a>
-                <span class="tooltip">Saved</span>
-            </li>
+            {{-- Profile User --}}
             <li class="profile">
                 <div class="profile-details">
                     <img src="{{ Auth::user()->avatar ?? asset('images/profile.webp')}}" alt="profileImg">
