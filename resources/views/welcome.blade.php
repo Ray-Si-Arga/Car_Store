@@ -162,7 +162,7 @@
             flex-direction: column;
             justify-content: center;
             gap: 1.1rem;
-            background: linear-gradient(to bottom right, var(--text), var(--blue-dk),  var(--text));
+            background: linear-gradient(to bottom right, var(--text), var(--blue-dk), var(--text));
         }
 
         .banner-text-col h1 {
@@ -236,7 +236,7 @@
             object-fit: cover;
             display: block;
             transition: transform 0.5s ease;
-        } 
+        }
 
         /* Glassmorphism pojok kanan bawah */
         .banner-glass {
@@ -618,7 +618,7 @@
     </style>
 
     <body>
-        <main class="page-wrap">
+        <main class="page-wrap" id="home">
 
             {{-- Blur Text --}}
             <div class="blur-text-container">
@@ -668,8 +668,8 @@
             </div>
 
             {{-- Keunggulan --}}
-            <div class="section-card" data-aos="fade-up">
-                <div class="section-title">
+            <div class="section-card" data-aos="fade-up" id="tentang">
+                <div class="section-title" id='tentang'>
                     <span class="chip">Kenapa Kami?</span>
                     <h2>Keunggulan Layanan Kami</h2>
                     <p>Kami hadir untuk memberikan pengalaman sewa mobil yang menyenangkan dan bebas khawatir</p>
@@ -779,55 +779,23 @@
                 </div>
             </div>
 
-            {{-- Testimonial --}}
-            <div class="section-card" data-aos="fade-up">
+            {{-- Maps --}}
+            <div class="section-card" data-aos="fade-up" id="lokasi">
                 <div class="section-title">
-                    <span class="chip">💬 Testimoni</span>
-                    <h2>Kata Pelanggan Kami</h2>
-                    <p>Ribuan pelanggan telah mempercayakan perjalanan mereka bersama kami</p>
+                    <span class="chip">Lokasi</span>
+                    <h2>Temukan Kami</h2>
                 </div>
-                <div class="testimonial-grid">
-                    <div class="testimonial-card" data-aos="fade-up" data-aos-delay="100">
-                        <div class="stars">★★★★★</div>
-                        <p>Pelayanannya sangat ramah dan responsif. Mobilnya bersih dan terawat. Pasti akan sewa lagi!</p>
-                        <div class="testimonial-author">
-                            <div class="author-avatar">A</div>
-                            <div class="author-info">
-                                <h4>Andi Pratama</h4>
-                                <span>Pelanggan setia sejak 2022</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="testimonial-card" data-aos="fade-up" data-aos-delay="200">
-                        <div class="stars">★★★★★</div>
-                        <p>Proses pemesanannya gampang banget, harga juga transparan. Recommended untuk liburan keluarga!
-                        </p>
-                        <div class="testimonial-author">
-                            <div class="author-avatar">S</div>
-                            <div class="author-info">
-                                <h4>Siti Rahayu</h4>
-                                <span>Pelanggan baru</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="testimonial-card" data-aos="fade-up" data-aos-delay="300">
-                        <div class="stars">★★★★☆</div>
-                        <p>Armadanya lengkap, dari yang kecil sampai SUV ada semua. Layanan 24 jam sangat membantu saat
-                            darurat.</p>
-                        <div class="testimonial-author">
-                            <div class="author-avatar">B</div>
-                            <div class="author-info">
-                                <h4>Budi Santoso</h4>
-                                <span>Pelanggan tetap</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <section id="lokasi" style="border-radius: 16px; overflow: hidden;">
+                    <iframe
+                        src="https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d3951.598200590583!2d112.7565150738663!3d-7.936963679045677!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zN8KwNTYnMTMuMSJTIDExMsKwNDUnMzIuNyJF!5e0!3m2!1sid!2sid!4v1775310203909!5m2!1sid!2sid"
+                        width="100%" height="500" style="border:0;" allowfullscreen="" loading="lazy"
+                        referrerpolicy="no-referrer-when-downgrade"></iframe>
+                </section>
             </div>
 
             {{-- Contact --}}
-            <div class="box-container" data-aos="fade-up">
-                <span class="chip">📞 Kontak</span>
+            <div class="box-container" data-aos="fade-up" id="hubungi-kami">
+                <span class="chip">Kontak</span>
                 <h2>Hubungi Kami</h2>
                 <p>Ada pertanyaan atau kendala? Tim kami siap membantu Anda kapanpun dibutuhkan.</p>
                 <div class="button-group">

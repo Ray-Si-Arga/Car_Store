@@ -19,7 +19,6 @@ return new class extends Migration
             $table->integer('harga_biasa');
             $table->integer('harga_weekend')->nullable();
             $table->enum('status', ['Tersedia', 'Disewa', 'Perbaikan'])->default('Tersedia');
-            $table->text('deskripsi')->nullable();
             $table->timestamps();
         });
     }

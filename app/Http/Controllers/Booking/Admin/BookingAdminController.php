@@ -37,7 +37,15 @@ class BookingAdminController extends Controller
     // Admin setujui pesanan
     public function approve($id)
     {
-        $booking = Booking::where('status', 'pending')->findOrFail($id);
+        $booking = Booking::findOrFail($id);
+
+        if ($booking->status !== 'pending') {
+            return redirect()->back()->with('toast', [
+                'status' => 'error',
+                'title' => 'Kesalahan',
+                'text' => 'Pemesanan ini sudah diproses atau status tidak mendukung untuk disetujui.',
+            ]);
+        }
 
         $booking->update(['status' => 'disetujui']);
 
@@ -46,7 +54,7 @@ class BookingAdminController extends Controller
         $notifService->sendNotification(
             $booking->customer_id,
 
-            route('customer.bookings.show', $booking->id),
+            route('customer.riwayat', $booking->id),
             'Pesanan Disetujui',
             'Pesanan disetujui oleh ' . Auth::user()->name,
             'sewa'
@@ -67,7 +75,15 @@ class BookingAdminController extends Controller
             'alasan_tolak' => 'required|string|max:500',
         ]);
 
-        $booking = Booking::where('status', 'pending')->findOrFail($id);
+        $booking = Booking::findOrFail($id);
+
+        if ($booking->status !== 'pending') {
+            return redirect()->back()->with('toast', [
+                'status' => 'error',
+                'title' => 'Kesalahan',
+                'text' => 'Pemesanan ini sudah diproses atau tidak bisa ditolak.',
+            ]);
+        }
 
         $booking->update([
             'status' => 'ditolak',
@@ -79,7 +95,7 @@ class BookingAdminController extends Controller
         $notifService->sendNotification(
             $booking->customer_id,
 
-            route('customer.bookings.show', $booking->id),
+            route('customer.riwayat', $booking->id),
             'Pesanan Ditolak',
             'Pesanan ditolak oleh ' . Auth::user()->name,
             'sewa'
@@ -96,7 +112,15 @@ class BookingAdminController extends Controller
     // Admin tandai selesai
     public function selesai($id)
     {
-        $booking = Booking::where('status', 'dibayar')->findOrFail($id);
+        $booking = Booking::findOrFail($id);
+
+        if ($booking->status !== 'dibayar') {
+            return redirect()->back()->with('toast', [
+                'status' => 'error',
+                'title' => 'Kesalahan',
+                'text' => 'Pemesanan belum dibayar atau status tidak valid.',
+            ]);
+        }
 
         $booking->update(['status' => 'selesai']);
 

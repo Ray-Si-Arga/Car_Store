@@ -12,6 +12,7 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
         rel="stylesheet">
+    <link href="https://cdn.boxicons.com/3.0.8/fonts/basic/boxicons.min.css" rel="stylesheet">
 
 </head>
 
@@ -160,6 +161,20 @@
         transition: all 0.3s ease;
     }
 
+    /* Efek Blur saat Modal Terbuka */
+    body.modal-open .header,
+    body.modal-open .bg-dots,
+    body.modal-open footer {
+        filter: blur(10px) brightness(0.7);
+        pointer-events: none;
+        user-select: none;
+    }
+
+    body.modal-open .main {
+        /* Jangan blur .main secara keseluruhan karena modal ada di dalamnya */
+        /* Kita hanya blur konten asli di dalam main melalui overlay modal di view anak */
+    }
+
     .header-container {
         display: flex;
         justify-content: space-between;
@@ -247,6 +262,10 @@
         box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
     }
 
+    html {
+        scroll-behavior: smooth;
+    }
+
     /* Main Content */
     main {
         padding: 2rem;
@@ -286,11 +305,11 @@
                 <p>Rental Mobilku</p>
             </a>
             <ul class="nav-menu">
-                <li><a href="/">Home</a></li>
+                <li><a href="{{ url('/') }}#home">Home</a></li>
                 <li><a href="{{ route('cars') }}">Mobil</a></li>
-                <li><a href="">Tentang</a></li>
-                <li><a href="">Lokasi</a></li>
-                <li><a href="">Hubungi Kami</a></li>
+                <li><a href="{{ url('/') }}#tentang">Tentang</a></li>
+                <li><a href="{{ url('/') }}#lokasi">Lokasi</a></li>
+                <li><a href="{{ url('/') }}#hubungi-kami">Hubungi Kami</a></li>
                 <li><a href="{{ route('login') }}" class="login-btn">Login</a></li>
             </ul>
         </div>

@@ -15,14 +15,14 @@ class AppServiceProvider extends ServiceProvider
         //
     }
 
-    /**
-     * Bootstrap any application services.
-     */
     public function boot(): void
     {
-        //
-        // if(config('app.env') !== 'local'){
-        //     URL::forceScheme('https');
-        // };
+        // View Composer untuk Sidebar Admin (Jumlah Booking Pending)
+        view()->composer('layouts.sidebar', function ($view) {
+            if (auth()->check() && auth()->user()->role === 'admin') {
+                $pendingCount = \App\Models\Booking::where('status', 'pending')->count();
+                $view->with('pendingCount', $pendingCount);
+            }
+        });
     }
 }

@@ -22,9 +22,9 @@ class CarController extends Controller
 
         $globalPricings = GlobalPricing::all();
 
-        if(Auth()->user()->role == 'admin'){
+        if (Auth()->user()->role == 'admin') {
             return view('admin.car.index', compact('cars', 'globalPricings'));
-        }else{
+        } else {
             return view('customer.car.index', compact('cars', 'globalPricings'));
         }
     }
@@ -40,7 +40,9 @@ class CarController extends Controller
             'harga_biasa' => $request->harga_biasa,
             'harga_weekend' => $request->harga_weekend ?? $request->harga_biasa, // Logika No. 1
             'status' => 'Tersedia',
-            'deskripsi' => $request->deskripsi,
+            'penumpang' => $request->penumpang,
+            'transmisi' => $request->transmisi,
+            'bahan_bakar' => $request->bahan_bakar,
         ]);
 
         // 2. Simpan Foto (Maksimal 4)
@@ -73,6 +75,25 @@ class CarController extends Controller
 
         $car->delete();
         return redirect()->back()->with('success', 'Data Berhasil Dihapus');
+    }
 
+    // update mobil
+    public function update(Request $request, $id)
+    {
+        $car = Car::findOrFail($id);
+
+        $car->update([
+            'nama_mobil' => $request->nama_mobil,
+            'plat_nomor' => $request->plat_nomor,
+            'kasta' => $request->kasta,
+            'harga_biasa' => $request->harga_biasa,
+            'harga_weekend' => $request->harga_weekend ?? $request->harga_biasa,
+            'status' => $request->status ?? $car->status,
+            'penumpang' => $request->penumpang,
+            'transmisi' => $request->transmisi,
+            'bahan_bakar' => $request->bahan_bakar,
+        ]);
+
+        return redirect()->back()->with('success', 'Data mobil berhasil diperbarui!');
     }
 }

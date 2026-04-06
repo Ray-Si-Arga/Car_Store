@@ -443,9 +443,9 @@
         }
 
         .info-muted i {
-            font-size: 1.5rem;
             color: var(--saas-gray-400);
             margin-bottom: 0.5rem;
+            font-weight: 700;
         }
 
         /* Modal */
@@ -790,7 +790,7 @@
                                     @csrf
                                     @method('PUT')
                                     <button type="submit" class="btn-complete">
-                                        <i class='bx bx-flag'></i> Tandai Sewa Selesai
+                                        Tandai Sewa Selesai
                                     </button>
                                 </form>
                             @elseif($booking->status == 'disetujui')
@@ -800,8 +800,7 @@
                                 </div>
                             @else
                                 <div class="info-muted">
-                                    <i class='bx bx-lock-alt'></i>
-                                    <p>Tidak ada tindakan yang diperlukan untuk status saat ini.</p>
+                                    <p style="font-size: 14px;">Tidak ada tindakan yang diperlukan untuk status saat ini.</p>
                                 </div>
                             @endif
                         </div>

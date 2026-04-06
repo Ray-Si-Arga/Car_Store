@@ -32,6 +32,19 @@
         transition: all 0.5s ease;
     }
 
+    /* Efek Blur saat Modal Terbuka */
+    body.modal-open .sidebar {
+        filter: blur(10px) brightness(0.7);
+        pointer-events: none;
+        user-select: none;
+    }
+
+    body.modal-open .home-section {
+        /* Konten utama biasanya sudah tertutup overlay modal */
+        /* Tapi kita beri sedikit darken tambahan agar konsisten */
+        background: rgba(0, 0, 0, 0.1);
+    }
+
     .sidebar.open {
         width: 250px;
     }
@@ -278,6 +291,35 @@
         overflow: hidden;
     }
 
+    /* Style untuk Badge Notifikasi */
+    .sidebar li a {
+        position: relative;
+    }
+
+    .sidebar li a .badge-notif {
+        position: absolute;
+        top: 8px;
+        left: 28px;
+        background: #ef4444;
+        /* Merah cerah */
+        color: white;
+        font-size: 10px;
+        font-weight: 700;
+        min-width: 18px;
+        height: 18px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        border: 2px solid #fff;
+        transition: all 0.5s ease;
+        z-index: 10;
+    }
+
+    .sidebar.open li a .badge-notif {
+        left: 32px;
+    }
+
     #container {
         height: 100% !important;
         display: block;
@@ -312,13 +354,13 @@
                 </li>
 
                 {{-- Notification Admin --}}
-                <li>
+                {{-- <li>
                     <a href="{{ route('admin.notification') }}">
                         <i class="bx bx-message-bubble-notification bx-flashing"></i>
                         <span class="links_name">Notification</span>
-                    </a>
+                    </a> 
                     <span class="tooltip">Notification</span>
-                </li>
+                </li> --}}
 
                 {{-- Mobil Admin --}}
                 <li>
@@ -333,6 +375,9 @@
                 <li>
                     <a href="{{ route('admin.bookings') }}">
                         <i class="bx bx-list-ul"></i>
+                        @if(isset($pendingCount) && $pendingCount > 0)
+                            <span class="badge-notif">{{ $pendingCount }}</span>
+                        @endif
                         <span class="links_name">Daftar Booking</span>
                     </a>
                     <span class="tooltip">Daftar Booking</span>

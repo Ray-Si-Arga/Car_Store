@@ -63,10 +63,6 @@
             transition: transform 0.5s ease;
         }
 
-        .car-card-saas:hover .car-img-saas {
-            transform: scale(1.05);
-        }
-
         /* Kasta Badge */
         .kasta-badge-saas {
             position: absolute;
@@ -87,18 +83,15 @@
 
         /* Badge colors based on kasta */
         .kasta-badge-saas[data-kasta="Economy"] {
-            background: #166534;
-            color: white;
+            color: #166534;
         }
 
         .kasta-badge-saas[data-kasta="Family"] {
-            background: #92400e;
-            color: white;
+            color: #92400e;
         }
 
         .kasta-badge-saas[data-kasta="Luxury"] {
-            background: #4338ca;
-            color: white;
+            color: #4338ca;
         }
 
         /* Card Body */
@@ -287,7 +280,8 @@
                         <div>
                             <h5 class="car-title-saas">{{ $car->nama_mobil }}</h5>
                             <span class="car-plat-saas">
-                                <i class="bx bx-car"></i> <strong style="text-transform: uppercase;">{{ $car->plat_nomor }}</strong>
+                                <i class="bx bx-car"></i> <strong
+                                    style="text-transform: uppercase;">{{ $car->plat_nomor }}</strong>
                             </span>
                         </div>
                     </div>
@@ -296,15 +290,15 @@
                     <div class="specs-row-saas">
                         <div class="spec-item-saas">
                             <i class='bx bx-group'></i>
-                            <span>{{ $car->kapasitas_penumpang ?? '4' }} Kursi</span>
+                            <span>{{ $car->penumpang }} Kursi</span>
                         </div>
                         <div class="spec-item-saas">
-                            <i class='bx bx-briefcase-alt-2'></i>
-                            <span>{{ $car->kapasitas_bagasi ?? '2' }} Bagasi</span>
+                            <i class="bx bx-petrol-pump"></i>
+                            <span>{{ $car->bahan_bakar }}</span>
                         </div>
                         <div class="spec-item-saas">
-                            <i class='bx bx-fuel-pump'></i>
-                            <span>{{ $car->jenis_bahan_bakar ?? 'Bensin' }}</span>
+                            <i class="bx bx-steering-wheel"></i>
+                            <span>{{ $car->transmisi }}</span>
                         </div>
                     </div>
 
@@ -316,7 +310,8 @@
                         </div>
                     </div>
 
-                    <a href="{{ route('customer.booking.create', $car->id) }}" class="btn-rent-saas">
+                    <a href="{{ route('customer.booking.create', $car->id) }}" id="btn-rent-{{ $car->id }}"
+                        class="btn-rent-saas" onclick="disableButton(this)">
                         Sewa Sekarang <i class='bx bx-chevron-right'></i>
                     </a>
                 </div>
@@ -329,4 +324,14 @@
             </div>
         @endforelse
     </div>
+
+    <script>
+        function disableButton(element) {
+            // Menambahkan class 'disabled' (untuk CSS)
+            element.classList.add('disabled');
+            // Mengubah kursor dan mencegah klik ulang secara logis
+            element.style.pointerEvents = 'none';
+            element.innerHTML = 'Memproses...';
+        }
+    </script>
 @endsection

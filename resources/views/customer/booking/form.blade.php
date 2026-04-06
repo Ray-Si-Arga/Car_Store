@@ -131,10 +131,6 @@
             transition: transform 0.4s ease;
         }
 
-        .car-image-container:hover .car-image {
-            transform: scale(1.01);
-        }
-
         .kasta-badge {
             position: absolute;
             top: 1rem;
@@ -151,18 +147,15 @@
 
         /* Badge colors based on kasta */
         .kasta-badge[data-kasta="Economy"] {
-            background: #166534;
-            color: white;
+            color: #166534;
         }
 
         .kasta-badge[data-kasta="Family"] {
-            background: #92400e;
-            color: white;
+            color: #92400e;
         }
 
         .kasta-badge[data-kasta="Luxury"] {
-            background: #4338ca;
-            color: white;
+            color: #4338ca;
         }
 
         .car-detail-body {
@@ -425,7 +418,7 @@
 
     <!-- Page Header -->
     <x-page-header>
-        <x-slot:title>Sewa {{ $car->nama_mobil }}</x-slot:title>
+        <x-slot:title>Sewa Mobil {{ $car->nama_mobil }}</x-slot:title>
         <x-slot:subtitle>Isi formulir di bawah untuk memulai pemesanan</x-slot:subtitle>
     </x-page-header>
 

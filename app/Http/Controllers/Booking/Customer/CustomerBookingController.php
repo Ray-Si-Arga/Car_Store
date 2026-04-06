@@ -65,7 +65,7 @@ class CustomerBookingController extends Controller
             'sewa'
         );
 
-        return redirect()->route('customer.bookings')->with('toast', [
+        return redirect()->route('customer.riwayat')->with('toast', [
             'status' => 'success',
             'title' => 'Pesanan Berhasil',
             'text' => 'Menunggu persetujuan admin.',
@@ -91,7 +91,7 @@ class CustomerBookingController extends Controller
             ->where('status', 'disetujui')
             ->firstOrFail();
 
-        return view('customer.riwayat.bayar', compact('booking'));
+        return view('customer.booking.bayar', compact('booking'));
     }
 
     // Simpan bukti bayar
@@ -124,7 +124,7 @@ class CustomerBookingController extends Controller
             'Bukti bayar dari ' . Auth::user()->name,
             'sewa'
         );
-        return redirect()->route('customer.bookings')->with('toast', [
+        return redirect()->route('customer.riwayat')->with('toast', [
             'status' => 'success',
             'title' => 'Bukti Bayar Terkirim',
             'text' => 'Terima kasih! Sewa Anda aktif.',

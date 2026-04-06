@@ -77,15 +77,14 @@
 
         <div class="dashboard-container">
 
-            {{-- Card Notifikasi --}}
+            {{-- Card Persetujuan --}}
             <div class="card-item">
                 <div class="card-label">
-                    notifikasi
+                    Butuh Persetujuan
                     <i class="bx bx-bell" style="color: #635BFF;"></i>
                 </div>
-                <div class="card-value" style="font-size: 16px; font-weight: 300; margin-top: 10px;">
-                    {{-- {{ $notifications->where('read', false)->count() }} --}}
-
+                <div class="card-value">
+                    {{ $bookings->where('status', 'pending')->count() }}
                 </div>
             </div>
 
@@ -95,16 +94,20 @@
                     Total user
                     <i class="bx bx-user" style="color: #635bff"></i>
                 </div>
-                <div class="card-value">{{ $TotalUser }}</div>
+                <div class="card-value">
+                    {{ $TotalUser }}
+                </div>
             </div>
 
-            {{-- Card Pesanan --}}
+            {{-- Card Disewa --}}
             <div class="card-item">
                 <div class="card-label">
                     mobil disewa
                     <i class="bx bx-cart" style="color:#635bff"></i>
                 </div>
-                <div class="card-value">85</div>
+                <div class="card-value">
+                    {{ $cars->where('status', 'disewa')->count() }}
+                </div>
             </div>
 
             {{-- Card Keuntungan --}}
@@ -113,7 +116,9 @@
                     keuntungan
                     <i class="bx bx-money" style="color:#635bff"></i>
                 </div>
-                <div class="card-value">Rp 12.3M</div>
+                <div class="card-value">
+                    Rp {{ number_format($bookings->where('status', 'selesai')->sum('total_harga'), 0, ',', '.') }}
+                </div>
             </div>
         </div>
 
@@ -122,14 +127,8 @@
         </div>
     </main>
 
-
-    {{-- Dashboard yang isinya adalah laporan sewaan dengan statisik --}}
-    {{-- <div id="container"></div> --}}
-
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-
-
             Highcharts.chart('chart-penjualan', {
                 chart: {
                     zooming: {
@@ -137,7 +136,7 @@
                     }
                 },
                 title: {
-                    text: 'Penjualan Bulanan',
+                    text: 'Keuntungan & Sewa',
                     align: 'left'
                 },
                 credits: {
@@ -152,7 +151,7 @@
                 }],
                 yAxis: [{ // Primary yAxis
                     labels: {
-                        format: '{value}°C'
+                        format: '{value}'
                     },
                     title: {
                         text: 'Mobil Disewa'
@@ -164,14 +163,17 @@
                         text: 'Keuntungan'
                     },
                     labels: {
-                        format: '{value} mm'
+                        formatter: function () {
+                            return 'Rp ' + this.value.toLocaleString('id-ID');
+                        }
                     },
                     lineColor: Highcharts.getOptions().colors[0],
                     lineWidth: 2,
                     opposite: true
                 }],
                 tooltip: {
-                    shared: true
+                    shared: true,
+                    headerFormat: '<b>{point.x}</b><br/>'
                 },
                 legend: {
                     align: 'left',
@@ -181,23 +183,17 @@
                     name: 'Keuntungan',
                     type: 'column',
                     yAxis: 1,
-                    data: [
-                        45.7, 37.0, 28.9, 17.1, 39.2, 18.9, 90.2, 78.5, 74.6,
-                        18.7, 17.1, 16.0
-                    ],
+                    data: @json($profits),
                     tooltip: {
-                        valueSuffix: ' mm'
+                        pointFormat: '<span style="color:{point.color}">\u25CF</span> {series.name}: <b>Rp {point.y:,.0f}</b><br/>'
                     }
 
                 }, {
                     name: 'Mobil disewa',
                     type: 'spline',
-                    data: [
-                        -11.4, -9.5, -14.2, 0.2, 7.0, 12.1, 13.5, 13.6, 8.2,
-                        -2.8, -12.0, -15.5
-                    ],
+                    data: @json($counts),
                     tooltip: {
-                        valueSuffix: '°C'
+                        pointFormat: '<span style="color:{point.color}">\u25CF</span> {series.name}: <b>{point.y} Mobil</b><br/>'
                     }
                 }]
             });

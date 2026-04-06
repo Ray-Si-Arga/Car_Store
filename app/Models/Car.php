@@ -8,16 +8,19 @@ use Carbon\Carbon;
 
 class Car extends Model
 {
-    protected $table = 'cars'; 
+    protected $table = 'cars';
 
     protected $fillable = [
-    'nama_mobil',
-    'plat_nomor', 
-    'kasta', 
-    'harga_biasa', 
-    'harga_weekend', 
-    'status', 
-    'deskripsi'];
+        'nama_mobil',
+        'plat_nomor',
+        'kasta',
+        'harga_biasa',
+        'harga_weekend',
+        'status',
+        'penumpang',
+        'transmisi',
+        'bahan_bakar',
+    ];
 
     // Relasi ke foto
     public function images()
@@ -42,8 +45,8 @@ class Car extends Model
 
         if ($global) {
             return ($global->type == 'percentage')
-                ? $hargaDasar + ($hargaDasar * ($global->value / 100))
-                : $hargaDasar + $global->value;
+                ? $hargaDasar - ($hargaDasar * ($global->value / 100))
+                : $hargaDasar - $global->value;
         }
 
         return $hargaDasar;

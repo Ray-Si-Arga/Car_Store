@@ -78,6 +78,7 @@
             gap: 0.5rem;
             background: var(--saas-primary);
             color: white;
+            margin-top: 1rem;
             padding: 0.7rem 1.5rem;
             border-radius: 14px;
             font-weight: 700;
@@ -166,6 +167,7 @@
             position: relative;
             height: 100%;
             min-height: 200px;
+            /* width: 150%; */
             background: linear-gradient(135deg, var(--saas-gray-100) 0%, var(--saas-gray-200) 100%);
             overflow: hidden;
         }
@@ -378,7 +380,7 @@
         }
 
         .reject-reason .reason-text {
-            font-size: 0.7rem;
+            font-size: 0.9rem;
             color: var(--saas-gray-700);
             margin-top: 0.25rem;
         }
@@ -425,19 +427,18 @@
         }
     </style>
 
+    <!-- Header Section -->
+    <x-page-header>
+        <x-slot:title>
+            Riwayat Pesanan
+        </x-slot:title>
+        <x-slot:actions>
+            <a href="{{ route('customer.car') }}" class="btn-rent-again">
+                <i class='bx bx-plus'></i> Sewa Mobil Lagi
+            </a>
+        </x-slot:actions>
+    </x-page-header>
     <div class="riwayat-container">
-        <!-- Header Section -->
-        <x-page-header>
-            <x-slot name="title">
-                <h1>Riwayat Pesanan</h1>
-                <p>Pantau status penyewaan mobil Anda di sini</p>
-            </x-slot>
-            <x-slot name="actions">
-                <a href="{{ route('customer.car') }}" class="btn-rent-again">
-                    <i class='bx bx-plus'></i> Sewa Mobil Lagi
-                </a>
-            </x-slot>
-        </x-page-header>
 
         @if($bookings->isEmpty())
             <!-- Empty State -->
@@ -447,7 +448,7 @@
                 </div>
                 <h3 class="empty-title">Belum Ada Pesanan</h3>
                 <p class="empty-text">Anda belum pernah melakukan pemesanan mobil.</p>
-                <a href="{{ route('cars') }}" class="empty-btn">
+                <a href="{{ route('customer.car') }}" class="empty-btn">
                     <i class='bx bx-search'></i> Cari Mobil Sekarang
                 </a>
             </div>
@@ -484,19 +485,33 @@
                                     <div class="date-value">{{ \Carbon\Carbon::parse($booking->tanggal_mulai)->format('d M Y') }}
                                     </div>
                                 </div>
+
                                 <div class="date-item">
                                     <div class="date-label">Kembali</div>
                                     <div class="date-value">{{ \Carbon\Carbon::parse($booking->tanggal_kembali)->format('d M Y') }}
                                     </div>
                                 </div>
-                            </div>
 
-                            <div class="location-info">
-                                <div class="location-label">Lokasi Penjemputan</div>
-                                <div class="location-value">
-                                    <i class='bx bxs-map'></i> {{ $booking->lokasi_customer }}
+                                <div class="location-info">
+                                    <div class="location-label">Lokasi</div>
+                                    <div class="location-value">
+                                        {{ $booking->lokasi_customer }}
+                                    </div>
+                                </div>
+
+                                <div class="location-info">
+                                    <div class="location-label">Diskon</div>
+                                    <div class="location-value">
+                                        @if ($booking->diskon == 0)
+                                            Tidak Ada Diskon
+                                        @else
+                                            {{ $booking->diskon }}
+                                        @endif
+                                    </div>
                                 </div>
                             </div>
+
+
                         </div>
 
                         <!-- Status Section -->
@@ -513,27 +528,22 @@
                                     switch ($booking->status) {
                                         case 'pending':
                                             $statusClass = 'status-pending';
-                                            $statusIcon = 'bx-loader';
                                             $statusText = 'Menunggu Approval';
                                             break;
                                         case 'disetujui':
                                             $statusClass = 'status-disetujui';
-                                            $statusIcon = 'bx-check-circle';
                                             $statusText = 'Disetujui';
                                             break;
                                         case 'dibayar':
                                             $statusClass = 'status-dibayar';
-                                            $statusIcon = 'bx-credit-card';
                                             $statusText = 'Sudah Dibayar';
                                             break;
                                         case 'selesai':
                                             $statusClass = 'status-selesai';
-                                            $statusIcon = 'bx-flag';
                                             $statusText = 'Selesai';
                                             break;
                                         default:
                                             $statusClass = 'status-ditolak';
-                                            $statusIcon = 'bx-x-circle';
                                             $statusText = 'Ditolak';
                                     }
                                 @endphp
@@ -548,7 +558,9 @@
                                 </a>
                             @elseif($booking->status == 'ditolak')
                                 <div class="reject-reason">
-                                    <i class='bx bx-error-circle'></i> <strong>Alasan:</strong>
+                                    <div style="font-size: 14px; font-weight: 700">
+                                        Alasan :
+                                    </div>
                                     <div class="reason-text">{{ $booking->alasan_tolak ?? 'Tidak disebutkan' }}</div>
                                 </div>
                             @endif

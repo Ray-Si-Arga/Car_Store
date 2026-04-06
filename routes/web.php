@@ -82,6 +82,7 @@ Route::middleware(['admin'])->group(function () {
     // ======== Admin Car =========
     Route::get('/admin/car', [CarController::class, 'index'])->name('admin.car');
     Route::post('/admin/car/store', [CarController::class, 'store'])->name('admin.car.store');
+    Route::put('/admin/car/update/{id}', [CarController::class, 'update'])->name('admin.car.update');
     Route::delete('/admin/car/destroy/{id}', [CarController::class, 'destroy'])->name('admin.car.delete');
 
     // ======== Admin Global Pricing =========
