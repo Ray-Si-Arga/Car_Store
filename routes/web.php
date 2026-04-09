@@ -9,6 +9,7 @@ use App\Http\Controllers\Notification\NotifController;
 use App\Http\Controllers\Booking\Admin\BookingAdminController;
 use App\Http\Controllers\Booking\Customer\CustomerBookingController;
 use App\Http\Controllers\User\UserController;
+use App\Http\Controllers\User\ProfileController;
 use App\Http\Controllers\PricingGlobe\PricingController;
 use Illuminate\Support\Facades\Route;
 
@@ -63,6 +64,9 @@ Route::group(['middleware' => ['cek.login', 'auth']], function () {
     Route::get('/customer/riwayat/show', [CustomerBookingController::class, 'show'])->name('customer.riwayat.show');
     Route::get('/customer/riwayat/{id}/bayar', [CustomerBookingController::class, 'formBayar'])->name('customer.riwayat.bayar');
     Route::post('/customer/riwayat/{id}/upload-bukti', [CustomerBookingController::class, 'uploadBukti'])->name('customer.riwayat.upload');
+
+    // Profile Technical Info
+    Route::post('/customer/profile/complete', [ProfileController::class, 'updateTechnicalInfo'])->name('customer.profile.complete');
 });
 
 

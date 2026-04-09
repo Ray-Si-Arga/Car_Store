@@ -508,7 +508,6 @@
                             {{ $message }}
                         @enderror
                     </span>
-
                 </div>
 
                 <div class="input-group">

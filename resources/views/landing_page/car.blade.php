@@ -394,7 +394,8 @@
 
     <div class="landing-container">
         <small class="note-catatan">
-            <i class='bx bx-info-circle'></i> Catatan: Login Diperlukan Untuk Menyewa Mobil, Dan Harga Dapat Berubah Sesuai Hari Biasa / Weekend <i class='bx bx-info-circle'></i>
+            <i class='bx bx-info-circle'></i> Catatan: Login Diperlukan Untuk Menyewa Mobil, Dan Harga Dapat Berubah Sesuai
+            Hari Biasa / Weekend <i class='bx bx-info-circle'></i>
         </small>
 
         <div class="cars-grid">
@@ -455,8 +456,8 @@
                 </div>
             @empty
                 <div class="empty-state-saas">
-                    <i class='bx bx-car'></i>
-                    <h4>Belum ada mobil tersedia</h4>
+                    <img src="{{ asset('images/no_dataa.svg') }}" alt="No Data" height="200" width="auto">
+                    <h4>Tidak Ada Data Yang Tersedia</h4>
                     <p>Silakan cek kembali nanti untuk katalog terbaru.</p>
                 </div>
             @endforelse

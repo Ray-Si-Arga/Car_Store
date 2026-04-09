@@ -111,9 +111,9 @@
         }
 
         .empty-title {
-            font-size: 1.25rem;
+            font-size: 16px;
             font-weight: 800;
-            color: var(--saas-gray-800);
+            color: var(--saas-primary);
             margin-bottom: 0.5rem;
         }
 
@@ -132,6 +132,7 @@
             padding: 0.7rem 1.8rem;
             border-radius: 14px;
             font-weight: 700;
+            font-size: 18px;
             text-decoration: none;
             transition: all 0.2s ease;
         }
@@ -449,7 +450,7 @@
                 <h3 class="empty-title">Belum Ada Pesanan</h3>
                 <p class="empty-text">Anda belum pernah melakukan pemesanan mobil.</p>
                 <a href="{{ route('customer.car') }}" class="empty-btn">
-                    <i class='bx bx-search'></i> Cari Mobil Sekarang
+                    Cari Mobil Sekarang
                 </a>
             </div>
         @else

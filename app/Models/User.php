@@ -25,6 +25,11 @@ class User extends Authenticatable
         'password',
         'role',
         'avatar',
+        'nama_orang_terdekat',
+        'alamat_orang_terdekat',
+        'no_telepon_terdekat',
+        'foto_rumah',
+        'ktp',
         'provider',
         'provider_id',
         'google_id',
@@ -40,5 +45,17 @@ class User extends Authenticatable
     public function notifications()
     {
         return $this->hasMany(Notification::class, 'user_id')->latest()->get();
+    }
+
+    /**
+     * Check if user has completed their accountability information.
+     */
+    public function isProfileComplete(): bool
+    {
+        return !empty($this->nama_orang_terdekat) &&
+               !empty($this->alamat_orang_terdekat) &&
+               !empty($this->no_telepon_terdekat) &&
+               !empty($this->foto_rumah) &&
+               !empty($this->ktp);
     }
 }

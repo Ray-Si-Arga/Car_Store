@@ -257,9 +257,9 @@
                         <td>{{ $user->created_at->format('d M Y') }}</td>
                         <td>
                             <div class="action-container">
-                                <a onclick="openEditModal({{ json_encode($user) }})" class="btn-action btn-edit"
-                                    title="Edit User">
-                                    <i class="bx bx-edit-alt"></i>
+                                <a onclick="openDetailModal({{ json_encode($user) }})" class="btn-action btn-edit"
+                                    title="Detail User">
+                                   <i class="bx bx-info-circle"></i>
                                 </a>
 
                                 <form action="{{ route('admin.delete', $user->id) }}" method="POST"
@@ -279,30 +279,45 @@
         </table>
     </div>
 
-    {{-- Modal Edit --}}
-    <div id="editModal" class="modal-overlay">
+    {{-- Modal Detail --}}
+    <div id="userDetailModal" class="modal-overlay">
         <div class="modal-content">
             <div class="modal-header">
-                <h3>Edit Pengguna</h3>
-                <span class="close-modal" onclick="closeEditModal()">&times;</span>
+                <h3>Detail Pengguna</h3>
+                <span class="close-modal" onclick="closeDetailModal()">&times;</span>
             </div>
-            <form id="editForm" method="POST">
+            <form id="detailForm" method="POST">
                 @csrf
                 @method('PUT')
 
                 <div class="form-group">
                     <label>Nama Lengkap</label>
-                    <input type="text" name="name" id="edit_name" class="form-control" required>
+                    <input type="text" name="name" id="detail_name" class="form-control" disabled>
                 </div>
 
                 <div class="form-group">
                     <label>Email</label>
-                    <input type="email" name="email" id="edit_email" class="form-control" required>
+                    <input type="email" name="email" id="detail_email" class="form-control" disabled>
+                </div>
+
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" name="password" id="detail_password" class="form-control" disabled>
+                </div>
+
+                <div class="form-group">
+                    <label>Nama Orang Terdekat</label>
+                    <input type="text" name="nama_orang_terdekat" id="detail_nama_orang_terdekat" class="form-control" disabled>
+                </div>
+
+                <div class="form-group">
+                    <label>Alamat Orang Terdekat</label>
+                    <input type="text" name="alamat_orang_terdekat" id="detail_alamat_orang_terdekat" class="form-control" disabled>
                 </div>
 
                 <div class="form-group">
                     <label>Role</label>
-                    <select name="role" id="edit_role" class="form-control" required>
+                    <select name="role" id="detail_role" class="form-control" required>
                         <option value="admin">ADMIN</option>
                         <option value="customer">CUSTOMER</option>
                     </select>
@@ -310,20 +325,22 @@
 
                 <div class="modal-footer">
                     <button type="submit" class="btn-save">Simpan Perubahan</button>
-                    <button type="button" class="btn-cancel-modal" onclick="closeEditModal()">Batal</button>
+                    <button type="button" class="btn-cancel-modal" onclick="closeDetailModal()">Batal</button>
                 </div>
             </form>
         </div>
     </div>
 
     <script>
-        function openEditModal(user) {
-            const modal = document.getElementById('editModal');
-            const form = document.getElementById('editForm');
+        function openDetailModal(user) {
+            const modal = document.getElementById('userDetailModal');
+            const form = document.getElementById('detailForm');
 
-            document.getElementById('edit_name').value = user.name;
-            document.getElementById('edit_email').value = user.email;
-            document.getElementById('edit_role').value = user.role;
+            document.getElementById('detail_name').value = user.name;
+            document.getElementById('detail_email').value = user.email;
+            document.getElementById('detail_role').value = user.role;
+            document.getElementById('detail_nama_orang_terdekat').value = user.nama_orang_terdekat || '-';
+            document.getElementById('detail_alamat_orang_terdekat').value = user.alamat_orang_terdekat || '-';
 
             form.action = `/admin/put/${user.id}`;
 
@@ -331,14 +348,14 @@
             modal.style.display = 'flex';
         }
 
-        function closeEditModal() {
-            document.getElementById('editModal').style.display = 'none';
+        function closeDetailModal() {
+            document.getElementById('userDetailModal').style.display = 'none';
         }
 
         window.onclick = function (event) {
-            const modal = document.getElementById('editModal');
+            const modal = document.getElementById('userDetailModal');
             if (event.target == modal) {
-                closeEditModal();
+                closeDetailModal();
             }
         }
     </script>

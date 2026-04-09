@@ -599,6 +599,7 @@
         </div>
     </div>
 
+
     <script>
         // Modern SaaS Login Form JavaScript
         class ModernSaaSLoginForm {
