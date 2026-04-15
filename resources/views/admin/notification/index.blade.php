@@ -186,6 +186,19 @@
             line-height: 1.5;
         }
 
+        .notif-delete {
+            color: var(--saas-white);
+            background: var(--saas-danger);
+            border: none;
+            display: inline-flex;
+            text-align: center;
+            margin-top: 12px;
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.25rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
         /* Category Icon Colors */
         .notif-item.info .notif-title i {
             color: var(--saas-info);
@@ -285,14 +298,15 @@
         }
     </style>
 
+    <x-page-header>
+        <x-slot:title>Notifikasi</x-slot:title>
+        <x-slot:subtitle>Kelola Notifikasi</x-slot:subtitle>
+    </x-page-header>
+
     <div class="notifikasi-container">
 
         <!-- Card Wrapper -->
         <div class="card-wrapper">
-            <x-page-header>
-                <x-slot:title>Notifikasi</x-slot:title>
-                <x-slot:subtitle>Kelola Notifikasi</x-slot:subtitle>
-            </x-page-header>
             <div class="card-saas">
 
                 <!-- Notification List -->
@@ -320,6 +334,14 @@
                                 </div>
                             </div>
                             <p class="notif-message">{{ $notif->message }}</p>
+
+                            <form action="{{ route('admin.notification.delete', $notif->id) }}" method="POST">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn btn-danger btn-sm notif-delete">
+                                    <i class="bx bx-x"></i>
+                                </button>
+                            </form>
                         </div>
                     @empty
                         <div class="empty-state">

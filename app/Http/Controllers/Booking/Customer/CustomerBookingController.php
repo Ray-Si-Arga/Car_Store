@@ -10,6 +10,8 @@ use App\Models\User;
 use App\Service\NotificationService;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
+use App\Mail\PaymentKirim;
+use Illuminate\Support\Facades\Mail;
 
 class CustomerBookingController extends Controller
 {
@@ -35,10 +37,15 @@ class CustomerBookingController extends Controller
 
         $car = Car::findOrFail($request->car_id);
 
-        // Hitung durasi dan total harga
+        // Hitung durasi dan total harga (Siklus 24 Jam)
         $tanggalSewa = Carbon::parse($request->tanggal_mulai);
         $tanggalKembali = Carbon::parse($request->tanggal_kembali);
-        $durasi = $tanggalSewa->diffInDays($tanggalKembali);
+        $diffHours = $tanggalSewa->diffInHours($tanggalKembali);
+        $durasi = ceil($diffHours / 24);
+
+        if ($durasi <= 0) {
+            $durasi = 1; // Minimal sewa 1 hari
+        }
         $totalHarga = $durasi * $car->harga_aktif;
 
         $booking = Booking::create([
@@ -124,10 +131,17 @@ class CustomerBookingController extends Controller
             'Bukti bayar dari ' . Auth::user()->name,
             'sewa'
         );
+
+        // Kirim email ke admin
+        // $admin = User::where('role', 'admin')->first();
+        // Mail::to($admin->email)->send(new PaymentKirim($booking));
+
+
         return redirect()->route('customer.riwayat')->with('toast', [
             'status' => 'success',
             'title' => 'Bukti Bayar Terkirim',
             'text' => 'Terima kasih! Sewa Anda aktif.',
         ]);
+
     }
 }

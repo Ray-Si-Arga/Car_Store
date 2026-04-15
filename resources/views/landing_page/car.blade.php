@@ -96,15 +96,18 @@
         }
 
         .kasta-badge-saas[data-kasta="Economy"] {
-            color: #166534;
+            color: white;
+            background: #166534;
         }
 
         .kasta-badge-saas[data-kasta="Family"] {
-            color: #92400e;
+            color: white;
+            background: #92400e;
         }
 
         .kasta-badge-saas[data-kasta="Luxury"] {
-            color: #4338ca;
+            color: white;
+            background: #4338ca;
         }
 
         /* Card Body */
@@ -295,20 +298,6 @@
             box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
         }
 
-        .close-preview {
-            position: absolute;
-            top: -40px;
-            right: 0;
-            font-size: 32px;
-            color: white;
-            cursor: pointer;
-            transition: 0.2s;
-        }
-
-        .close-preview:hover {
-            color: #ef4444;
-        }
-
         /* Utility */
         .d-flex {
             display: flex;
@@ -491,7 +480,6 @@
             }
         }
 
-
         function disableButton(element) {
             // Menambahkan class 'disabled' (untuk CSS)
             element.classList.add('disabled');
@@ -499,6 +487,17 @@
             element.style.pointerEvents = 'none';
             element.innerHTML = 'Memproses...';
         }
+
+        // Reset tombol saat user menekan tombol "Back" di browser
+        window.addEventListener('pageshow', function (event) {
+            const buttons = document.querySelectorAll('.btn-rent-saas');
+            buttons.forEach(btn => {
+                btn.disabled = false;
+                btn.classList.remove('disabled');
+                // Mengembalikan teks dan ikon asli
+                btn.innerHTML = "Sewa Sekarang <i class='bx bx-chevron-right'></i>";
+            });
+        });
 
     </script>
 @endsection

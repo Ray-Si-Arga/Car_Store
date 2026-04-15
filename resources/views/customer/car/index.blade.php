@@ -1,11 +1,6 @@
 @extends('layouts.sidebar')
 @section('title', 'Daftar Mobil')
 @section('content')
-    <x-page-header>
-        <x-slot:title>Daftar Mobil</x-slot:title>
-        <x-slot:subtitle>Pilih armada terbaik untuk perjalanan Anda</x-slot:subtitle>
-    </x-page-header>
-
     <style>
         /* CSS Modern SaaS Style - Tanpa merusak logika */
         :root {
@@ -19,6 +14,8 @@
             --saas-gray-300: #e2e8f0;
             --saas-gray-600: #5b6e8c;
             --saas-gray-800: #1e293b;
+            --saas-gray-900: #121924;
+            --mobile-padding: 16px;
         }
 
         /* Grid System */
@@ -83,15 +80,18 @@
 
         /* Badge colors based on kasta */
         .kasta-badge-saas[data-kasta="Economy"] {
-            color: #166534;
+            background: #166534;
+            color: white;
         }
 
         .kasta-badge-saas[data-kasta="Family"] {
-            color: #92400e;
+            background: #92400e;
+            color: white;
         }
 
         .kasta-badge-saas[data-kasta="Luxury"] {
-            color: #4338ca;
+            background: #4338ca;
+            color: white;
         }
 
         /* Card Body */
@@ -199,6 +199,12 @@
             color: white;
         }
 
+        .btn-rent-saas.disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            pointer-events: none;
+        }
+
         /* Empty State */
         .empty-state-saas {
             text-align: center;
@@ -206,55 +212,6 @@
             background: white;
             border-radius: 28px;
             border: 1px solid var(--saas-gray-200);
-        }
-
-        /* Responsive */
-        @media (max-width: 1200px) {
-            .cars-grid {
-                grid-template-columns: repeat(3, 1fr);
-                gap: 1.5rem;
-            }
-        }
-
-        @media (max-width: 768px) {
-            .cars-grid {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 1rem;
-            }
-
-            .card-body-saas {
-                padding: 1rem;
-            }
-
-            .car-title-saas {
-                font-size: 0.95rem;
-            }
-
-            .price-value-saas {
-                font-size: 1.2rem;
-            }
-
-            .btn-rent-saas {
-                padding: 0.7rem;
-                font-size: 0.75rem;
-            }
-
-            .specs-row-saas {
-                gap: 0.75rem;
-                margin: 0.75rem 0;
-                padding: 0.5rem 0;
-            }
-
-            .spec-item-saas {
-                font-size: 0.65rem;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .cars-grid {
-                grid-template-columns: 1fr;
-                gap: 1rem;
-            }
         }
 
         /* Blocking Profile */
@@ -301,7 +258,6 @@
             color: var(--saas-primary);
             margin-bottom: 1.5rem;
             display: inline-block;
-            background: var(--saas-gray-100);
             width: 100px;
             height: 100px;
             line-height: 100px;
@@ -322,7 +278,7 @@
         }
 
         .btn-complete-profile {
-            background: var(--saas-accent);
+            background: #2f4b7c;
             color: white;
             padding: 1rem 2rem;
             border-radius: 16px;
@@ -337,10 +293,8 @@
         }
 
         .btn-complete-profile:hover {
-            background: #27ae60;
-            transform: scale(1.05);
-            box-shadow: 0 10px 20px rgba(46, 204, 113, 0.3);
-            color: white;
+            background: #1f3a60;
+            box-shadow: 0 4px 12px rgba(31, 58, 96, 0.2);
         }
 
         /* Modal Overlay for Profile */
@@ -440,21 +394,279 @@
                 transform: translateY(0);
             }
         }
+
+        /* ========== VERSI MOBILE - RESPONSIVE ========== */
+        @media (max-width: 1200px) {
+            .cars-grid {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 1.5rem;
+            }
+        }
+
+        @media (max-width: 992px) {
+            .cars-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 1.25rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .cars-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 1rem;
+            }
+
+            .card-body-saas {
+                padding: 0.875rem;
+            }
+
+            .car-title-saas {
+                font-size: 0.9rem;
+            }
+
+            .price-value-saas {
+                font-size: 1.1rem;
+            }
+
+            .btn-rent-saas {
+                padding: 0.6rem;
+                font-size: 0.7rem;
+            }
+
+            .specs-row-saas {
+                gap: 0.5rem;
+                margin: 0.5rem 0;
+                padding: 0.4rem 0;
+            }
+
+            .spec-item-saas {
+                font-size: 0.6rem;
+            }
+
+            .spec-item-saas i {
+                font-size: 0.8rem;
+            }
+
+            /* Blocking Card Mobile */
+            .blocking-card {
+                padding: 1.5rem;
+                margin: 0 1rem;
+            }
+
+            .blocking-icon {
+                width: 70px;
+                height: 70px;
+                line-height: 70px;
+                font-size: 2.5rem;
+            }
+
+            .blocking-card h3 {
+                font-size: 1.2rem;
+            }
+
+            .blocking-card p {
+                font-size: 0.85rem;
+            }
+
+            .btn-complete-profile {
+                padding: 0.75rem 1.5rem;
+                font-size: 0.85rem;
+            }
+
+            /* Modal Mobile */
+            .modal-content {
+                max-width: 90%;
+                margin: 1rem;
+                padding: 1.25rem;
+                max-height: 85vh;
+                overflow-y: auto;
+            }
+
+            .modal-header h3 {
+                font-size: 1.1rem;
+            }
+
+            .form-group label {
+                font-size: 0.8rem;
+            }
+
+            .form-control {
+                padding: 8px 10px;
+                font-size: 0.8rem;
+            }
+
+            .btn-save,
+            .btn-cancel-modal {
+                padding: 8px 16px;
+                font-size: 0.8rem;
+            }
+
+            .empty-state-saas {
+                padding: 2rem 1rem;
+            }
+
+            .empty-state-saas h4 {
+                font-size: 1rem !important;
+            }
+
+            .empty-state-saas p {
+                font-size: 0.8rem !important;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .cars-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+
+            .car-card-saas {
+                max-width: 100%;
+            }
+
+            .card-img-saas {
+                aspect-ratio: 16/9;
+            }
+
+            .car-title-saas {
+                font-size: 1rem;
+            }
+
+            .price-value-saas {
+                font-size: 1.2rem;
+            }
+
+            .specs-row-saas {
+                flex-wrap: wrap;
+                gap: 0.75rem;
+            }
+
+            .spec-item-saas {
+                flex: 1;
+                min-width: 70px;
+                justify-content: center;
+            }
+
+            /* Blocking Card Mobile Kecil */
+            .blocking-card {
+                padding: 1.25rem;
+            }
+
+            .blocking-icon {
+                width: 60px;
+                height: 60px;
+                line-height: 60px;
+                font-size: 2rem;
+            }
+
+            .btn-complete-profile {
+                padding: 0.6rem 1.2rem;
+                font-size: 0.8rem;
+            }
+
+            /* Modal Mobile Kecil */
+            .modal-content {
+                padding: 1rem;
+                max-height: 90vh;
+            }
+
+            .modal-header {
+                margin-bottom: 1rem;
+            }
+
+            .form-group {
+                margin-bottom: 1rem;
+            }
+
+            .modal-footer {
+                margin-top: 1rem;
+                flex-wrap: wrap;
+            }
+
+            .btn-save,
+            .btn-cancel-modal {
+                flex: 1;
+                text-align: center;
+            }
+        }
+
+        /* Landscape mode untuk mobile */
+        @media (max-width: 768px) and (orientation: landscape) {
+            .cars-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .profile-blocking-overlay {
+                padding: 1rem;
+            }
+
+            .blocking-card {
+                padding: 1rem;
+                max-width: 80%;
+            }
+
+            .modal-content {
+                max-height: 80vh;
+            }
+        }
+
+        /* Upload Area Styling untuk Form Modal */
+        .upload-area {
+            width: 100%;
+            padding: 1rem;
+            border: 2px dashed var(--saas-gray-300);
+            border-radius: 12px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            background: var(--saas-gray-50);
+            display: block;
+            position: relative;
+        }
+
+        .upload-area:hover {
+            border-color: var(--saas-primary);
+            background: var(--saas-gray-100);
+        }
+
+        .upload-area input[type="file"] {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            opacity: 0;
+            cursor: pointer;
+        }
+
+        @media (max-width: 480px) {
+            .upload-area {
+                padding: 0.75rem;
+            }
+        }
     </style>
 
+    <x-page-header>
+        <x-slot:title>Daftar Mobil</x-slot:title>
+        <x-slot:subtitle>Pilih armada terbaik untuk perjalanan Anda</x-slot:subtitle>
+    </x-page-header>
+
+    <x-filter />
+
     <div class="profile-blocking-container">
+
         @if(auth()->check() && !auth()->user()->isProfileComplete())
             <div class="profile-blocking-overlay" style="z-index: 9999;">
                 <div class="blocking-card">
                     <div class="blocking-icon">
-                        <i class='bx bx-lock-alt'></i>
+                        <i class="bx bx-lock"></i>
                     </div>
                     <h3>Akses Terkunci</h3>
-                    <p>Demi keamanan, mohon lengkapi data pertanggungjawaban (KTP & Foto Rumah) sebelum membooking armada
+                    <p style="font-size: 19px;">Demi keamanan, mohon lengkapi data pertanggungjawaban sebelum menyewa armada
                         kami.
                     </p>
-                    <button class="btn-complete-profile" onclick="openProfileModal()">
-                        Lengkapi Profil Sekarang <i class='bx bx-edit-alt'></i>
+                    <button class="btn-complete-profile" onclick="openProfileModal()" style="font-size: 15px">
+                        Lengkapi Profil Sekarang
                     </button>
                 </div>
             </div>
@@ -488,7 +700,7 @@
                             </div>
                         </div>
 
-                        <!-- Specs Info (opsional jika ada data tambahan) -->
+                        <!-- Specs Info -->
                         <div class="specs-row-saas">
                             <div class="spec-item-saas">
                                 <i class='bx bx-group'></i>
@@ -521,10 +733,16 @@
             @empty
                 <div class="empty-state-saas" style="grid-column: 1/-1;">
                     <i class='bx bx-car bx-lg mb-3' style="font-size: 3rem; color: #cbd5e1;"></i>
-                    <h4 class="fw-bold mb-2" style="font-weight: 700; font-size: 20px; color: #2f4b7c;">Belum ada mobil tersedia</h4>
-                    <p class="text-muted mb-0" style="font-weight: 200; font-size: 18px;">Silakan cek kembali nanti untuk katalog terbaru.</p>
+                    <h4 class="fw-bold mb-2" style="font-weight: 700; font-size: 20px; color: #2f4b7c;">Belum ada mobil tersedia
+                    </h4>
+                    <p class="text-muted mb-0" style="font-weight: 200; font-size: 18px;">Silakan cek kembali nanti untuk
+                        katalog terbaru.</p>
                 </div>
             @endforelse
+        </div>
+
+        <div class="mt-4">
+            {{ $cars->links('components.paginate') }}
         </div>
     </div>
 
@@ -533,7 +751,7 @@
         <div id="profileCompletionModal" class="modal-overlay">
             <div class="modal-content" style="max-height: 90vh; overflow-y: auto; padding: 2rem;">
                 <div class="modal-header">
-                    <h3 style="font-weight: 800; color: var(--saas-primary);">Form Pertanggungjawaban</h3>
+                    <h3 style="font-weight: 800; color: var(--saas-saas-800);">Form Pertanggungjawaban</h3>
                     <span class="close-modal" onclick="closeProfileModal()">&times;</span>
                 </div>
 
@@ -554,41 +772,50 @@
                         <label style="font-weight: 600; color: var(--saas-gray-800);">Nama Orang Terdekat / Penjamin</label>
                         <input type="text" name="nama_orang_terdekat" class="form-control"
                             placeholder="Contoh: Orang Tua / Saudara Kandung" required>
+                        <small style="color: #64748b; font-size: 0.7rem;">Informasi ini diperlukan sebagai kontak
+                            darurat</small>
                     </div>
 
                     <div class="form-group" style="margin-bottom: 1.5rem;">
                         <label style="font-weight: 600; color: var(--saas-gray-800);">Alamat Lengkap Penjamin</label>
                         <textarea name="alamat_orang_terdekat" class="form-control" rows="3"
                             placeholder="Alamat lengkap sesuai KTP" required></textarea>
+                        <small style="color: #64748b; font-size: 0.7rem;">Alamat yang valid untuk verifikasi</small>
                     </div>
 
                     <div class="form-group" style="margin-bottom: 1.5rem;">
                         <label style="font-weight: 600; color: var(--saas-gray-800);">Nomor Telepon Penjamin</label>
                         <input type="number" name="no_telepon_terdekat" class="form-control" placeholder="08xxxxxxxx" required>
+                        <small style="color: #64748b; font-size: 0.7rem;">Nomor WhatsApp yang aktif</small>
                     </div>
 
-                    <div class="form-group" style="margin-bottom: 1.5rem;">
-                        <label style="font-weight: 600; color: var(--saas-gray-800);">Foto Rumah Tinggal</label>
+                    <div class="form-group upload-area" style="margin-bottom: 1.5rem;">
+                        <label
+                            style="font-weight: 600; color: var(--saas-gray-800); display: block; margin-bottom: 0.5rem;">Foto
+                            Rumah Tinggal</label>
                         <input type="file" name="foto_rumah" class="form-control" accept="image/*" required>
-                        <small style="color: #64748b; font-size: 0.75rem;">Harap lampirkan foto tampak depan rumah
-                            Anda.</small>
+                        <small style="color: #64748b; font-size: 0.7rem;">Harap lampirkan foto tampak depan rumah Anda.</small>
                     </div>
 
-                    <div class="form-group" style="margin-bottom: 2rem;">
-                        <label style="font-weight: 600; color: var(--saas-gray-800);">Foto KTP Asli</label>
+                    <div class="form-group upload-area" style="margin-bottom: 2rem;">
+                        <label
+                            style="font-weight: 600; color: var(--saas-gray-800); display: block; margin-bottom: 0.5rem;">Foto
+                            KTP Asli</label>
                         <input type="file" name="ktp" class="form-control" accept="image/*" required>
-                        <small style="color: #64748b; font-size: 0.75rem;">Foto KTP harus jelas dan terbaca.</small>
+                        <small style="color: #64748b; font-size: 0.7rem;">Foto KTP harus jelas dan terbaca.</small>
                     </div>
 
                     <div class="modal-footer" style="padding-top: 1rem; border-top: 1px solid var(--saas-gray-200);">
                         <button type="button" class="btn-cancel-modal" onclick="closeProfileModal()"
                             style="margin-right: 1rem;">Batal</button>
-                        <button type="submit" class="btn-save" style="background: var(--saas-primary);">Simpan & Buka
+                        <button type="submit" class="btn-save" style="background: var(--saas-gray-800);">Simpan
                             Akses</button>
                     </div>
                 </form>
             </div>
         </div>
+
+
     @endif
 
     <script>
@@ -616,11 +843,21 @@
         }
 
         function disableButton(element) {
-            // Menambahkan class 'disabled' (untuk CSS)
+            if (!element) return;
+            element.disabled = true;
             element.classList.add('disabled');
-            // Mengubah kursor dan mencegah klik ulang secara logis
-            element.style.pointerEvents = 'none';
             element.innerHTML = 'Memproses...';
         }
+
+        // Reset tombol saat user menekan tombol "Back" di browser
+        window.addEventListener('pageshow', function (event) {
+            const buttons = document.querySelectorAll('.btn-rent-saas');
+            buttons.forEach(btn => {
+                btn.disabled = false;
+                btn.classList.remove('disabled');
+                // Mengembalikan teks dan ikon asli
+                btn.innerHTML = "Sewa Sekarang <i class='bx bx-chevron-right'></i>";
+            });
+        });
     </script>
 @endsection

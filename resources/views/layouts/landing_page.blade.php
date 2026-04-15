@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
     <title>@yield('title')</title>
 
     {{-- Google Fonts --}}
@@ -28,6 +28,8 @@
         --text-color: #111111;
         --bg-color: #ffffff;
         --shadow: 0 1px 0 rgba(0, 0, 0, 0.08);
+        --mobile-padding: 16px;
+        --mobile-gap: 12px;
     }
 
     * {
@@ -38,7 +40,7 @@
     }
 
     body {
-        padding-top: 80px;
+        padding-top: 70px;
         background-color: #E5EEEA;
         line-height: 1.6;
         font-family: 'Poppins', sans-serif;
@@ -170,11 +172,6 @@
         user-select: none;
     }
 
-    body.modal-open .main {
-        /* Jangan blur .main secara keseluruhan karena modal ada di dalamnya */
-        /* Kita hanya blur konten asli di dalam main melalui overlay modal di view anak */
-    }
-
     .header-container {
         display: flex;
         justify-content: space-between;
@@ -292,6 +289,160 @@
         font-family: "Poppins", sans-serif;
         font-weight: 400;
         letter-spacing: 0.2px;
+    }
+
+    /* ========== VERSI MOBILE - RESPONSIVE DESIGN ========== */
+    @media (max-width: 768px) {
+        body {
+            padding-top: 60px;
+        }
+
+        .header {
+            height: 60px;
+        }
+
+        .header-container {
+            padding: 0 var(--mobile-padding);
+        }
+
+        .logo p {
+            display: none;
+        }
+
+        .logo img {
+            width: 45px;
+        }
+
+        /* Mobile Navigation - Horizontal Scroll */
+        .nav-menu {
+            gap: 0;
+            overflow-x: auto;
+            overflow-y: hidden;
+            white-space: nowrap;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: thin;
+            padding: 4px 0;
+        }
+
+        .nav-menu::-webkit-scrollbar {
+            height: 3px;
+        }
+
+        .nav-menu::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+
+        .nav-menu::-webkit-scrollbar-thumb {
+            background: #c1c1c1;
+            border-radius: 10px;
+        }
+
+        .nav-menu a {
+            font-size: 0.75rem;
+            padding: 6px 12px;
+            white-space: nowrap;
+        }
+
+        .login-btn {
+            padding: 6px 14px !important;
+            font-size: 0.75rem !important;
+        }
+
+        /* Main Content */
+        main {
+            padding: 1rem;
+            min-height: calc(100vh - 60px);
+        }
+
+        /* Footer */
+        footer {
+            padding: 1.25rem;
+            margin-top: 1.5rem;
+        }
+
+        .footer-content p {
+            font-size: 0.7rem;
+        }
+
+        /* Dekorasi Background Mobile - Lebih Kecil */
+        body::before {
+            width: 280px;
+            height: 280px;
+            top: -100px;
+            left: -100px;
+            filter: blur(20px);
+        }
+
+        body::after {
+            width: 250px;
+            height: 250px;
+            bottom: -80px;
+            right: -80px;
+            filter: blur(20px);
+        }
+
+        .main::before {
+            width: 200px;
+            height: 200px;
+            top: 30%;
+            left: 70%;
+            filter: blur(30px);
+        }
+
+        /* Dot Pattern lebih kecil */
+        .bg-dots {
+            background-size: 20px 20px;
+        }
+    }
+
+    /* Untuk layar sangat kecil (max 480px) */
+    @media (max-width: 480px) {
+        .nav-menu {
+            gap: 0;
+        }
+
+        .nav-menu a {
+            font-size: 0.7rem;
+            padding: 5px 10px;
+        }
+
+        .login-btn {
+            padding: 5px 12px !important;
+            font-size: 0.7rem !important;
+        }
+
+        .logo img {
+            width: 40px;
+        }
+
+        main {
+            padding: 0.75rem;
+        }
+    }
+
+    /* Landscape mode untuk mobile */
+    @media (max-width: 768px) and (orientation: landscape) {
+        body {
+            padding-top: 55px;
+        }
+
+        .header {
+            height: 55px;
+        }
+
+        .nav-menu {
+            gap: 2px;
+        }
+
+        .nav-menu a {
+            font-size: 0.7rem;
+            padding: 4px 10px;
+        }
+
+        main {
+            min-height: calc(100vh - 55px);
+        }
     }
 </style>
 

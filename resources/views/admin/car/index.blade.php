@@ -228,6 +228,7 @@
             display: grid;
             grid-template-columns: repeat(2, 1fr);
             gap: 20px;
+            margin-top: 15px;
         }
 
         .form-group-full {
@@ -481,8 +482,6 @@
                         <span style="font-size: 12px; opacity: 0.8;">Aktif Sampai
                             {{ \Carbon\Carbon::parse($sampleCar->event_aktif->end_date)->translatedFormat('d F Y') }}</span>
                     </div>
-                @elseif ($hariIni->isWeekend())
-                    <div class="badge badge-luxury" style="padding: 6px 12px; border-radius: 8px;">Harga Weekend Aktif</div>
                 @endif
             </div>
 
@@ -508,6 +507,7 @@
                     <th>Nama Mobil</th>
                     <th>Plat Mobil</th>
                     <th>Penumpang</th>
+                    <th>Stok</th>
                     <th>Transmisi</th>
                     <th>Bahan Bakar</th>
                     <th>Kelas</th>
@@ -530,6 +530,7 @@
                         <td style="font-weight: 600;">{{ $car->nama_mobil }}</td>
                         <td style="font-weight: 600; text-transform: uppercase;">{{ $car->plat_nomor }}</td>
                         <td>{{ $car->penumpang }}</td>
+                        <td>{{ $car->stok }}</td>
                         <td>{{ $car->transmisi }}</td>
                         <td>{{ $car->bahan_bakar }}</td>
                         <td><span class="badge badge-{{ strtolower($car->kasta) }}">{{ strtoupper($car->kasta) }}</span></td>
@@ -575,13 +576,15 @@
                 @endforelse
             </tbody>
         </table>
+
+        {{ $cars->links('components.paginate') }}
     </div>
 
     {{-- ========== MODAL TAMBAH MOBIL - LEBIH LEBAR ========== --}}
     <div id="addModal" class="modal-overlay">
         <div class="modal-content">
             <div class="modal-header">
-                <h3><i class='bx bx-plus-circle' style="margin-right: 8px;"></i> Tambah Armada Baru</h3>
+                <h3> Tambah Armada Baru</h3>
                 <span class="close-modal" onclick="closeAddModal()">&times;</span>
             </div>
             <form action="{{ route('admin.car.store') }}" method="POST" enctype="multipart/form-data">
@@ -595,6 +598,8 @@
                         </div>
                         <div class="form-group"><label>Penumpang</label><input type="number" name="penumpang"
                                 class="form-control" placeholder="5" required></div>
+                        <div class="form-group"><label>Stok</label><input type="number" name="stok"
+                                class="form-control" placeholder="1" required></div>
                         <div class="form-group"><label>Transmisi</label><select name="transmisi" class="form-control">
                                 <option value="Matic">Matic</option>
                                 <option value="Manual">Manual</option>
@@ -624,7 +629,7 @@
                                 class="form-control" placeholder="Kosong = sama dengan biasa"><input type="hidden"
                                 name="harga_weekend" id="harga_weekend_asli">
                         </div>
-                        <div class="form-group-full"><label>Upload Foto</label><input type="file" name="fotos[]"
+                        <div class="form-group"><label>Upload Foto</label><input type="file" name="fotos[]"
                                 class="form-control" multiple accept="image/*" required>
                         </div>
                     </div>
@@ -655,6 +660,8 @@
                                 id="edit_plat_nomor" style="text-transform: uppercase;" class="form-control" required></div>
                         <div class="form-group"><label>Penumpang</label><input type="number" name="penumpang"
                                 id="edit_penumpang" class="form-control" required></div>
+                        <div class="form-group"><label>Stok</label><input type="number" name="stok"
+                                id="edit_stok" class="form-control" required></div>
                         <div class="form-group"><label>Transmisi</label><select name="transmisi" id="edit_transmisi"
                                 class="form-control">
                                 <option value="Matic">Matic</option>
@@ -693,12 +700,12 @@
                         </div>
                         <div class="form-group-full">
                             <label style="display: block;
-                    font-size: 12px;
-                    font-weight: 600;
-                    color: #475569;
-                    margin-bottom: 6px;
-                    text-transform: uppercase;
-                    letter-spacing: 0.3px;">Foto Mobil</label>
+                                    font-size: 12px;
+                                    font-weight: 600;
+                                    color: #475569;
+                                    margin-bottom: 6px;
+                                    text-transform: uppercase;
+                                    letter-spacing: 0.3px;">Foto Mobil</label>
                             <div class="image-upload-area">
                                 <div id="edit_image_container" class="image-preview-list"></div>
                                 <input type="file" name="fotos[]" class="form-control" multiple accept="image/*">
@@ -720,26 +727,44 @@
     <div id="globalPriceModal" class="modal-overlay">
         <div class="modal-content modal-sm">
             <div class="modal-header">
-                <h3><i class='bx bx-dollar-circle' style="margin-right: 8px;"></i> Pengaturan Harga Global</h3>
+                <h3>Pengaturan Harga Global</h3>
                 <span class="close-modal" onclick="closeGlobalPriceModal()">&times;</span>
             </div>
             <form action="{{ route('admin.global-pricing.store') }}" method="POST">
                 @csrf
                 <div class="modal-body">
-                    <div class="form-group"><label>Nama Event / Musim Libur</label><input type="text" name="nama_event"
-                            class="form-control" placeholder="Contoh: Libur Natal & Tahun Baru" required></div>
+
+                    <div class="form-group"><label>Nama Event / Musim Libur</label>
+                        <input type="text" name="nama_event" class="form-control"
+                            placeholder="Contoh: Libur Natal & Tahun Baru" required>
+                    </div>
+
                     <div class="form-grid">
-                        <div class="form-group"><label>Tanggal Mulai</label><input type="date" name="start_date"
-                                class="form-control" required></div>
-                        <div class="form-group"><label>Tanggal Berakhir</label><input type="date" name="end_date"
-                                class="form-control" required></div>
-                        <div class="form-group"><label>Tipe Potongan</label><select name="type" id="tipe_kenaikan"
-                                class="form-control" onchange="toggleGlobalPriceFormat()">
+                        <div class="form-group">
+                            <label>Tanggal Mulai</label>
+                            <input type="date" name="start_date" class="form-control" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Tanggal Berakhir</label>
+                            <input type="date" name="end_date" class="form-control" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Tipe Potongan</label>
+                            <select name="type" id="tipe_kenaikan" class="form-control"
+                                onchange="toggleGlobalPriceFormat()">
                                 <option value="nominal">NOMINAL (RP)</option>
-                            </select></div>
-                        <div class="form-group"><label id="label_nilai">Besar Potongan</label><input type="text"
-                                id="global_val_mask" class="form-control" placeholder="Contoh: 120000" required><input
-                                type="hidden" name="value" id="global_val_asli"></div>
+                                {{-- <option value="persen">Persen</option> --}}
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label id="label_nilai">Besar Potongan</label>
+                            <input type="text" id="global_val_mask" class="form-control" placeholder="Contoh: 120000"
+                                required>
+                            <input type="hidden" name="value" id="global_val_asli">
+                        </div>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -754,7 +779,7 @@
     <div id="cancelGlobalModal" class="modal-overlay">
         <div class="modal-content modal-md">
             <div class="modal-header">
-                <h3><i class='bx bx-history' style="margin-right: 8px;"></i> Event Harga Global Aktif</h3>
+                <h3>Event Harga Global Aktif</h3>
                 <span class="close-modal" onclick="closeCancelModal()">&times;</span>
             </div>
             <div class="modal-body">
@@ -771,6 +796,7 @@
                         <tbody>
                             @forelse($globalPricings as $gp)
                                 <tr>
+                                    <td>{{ $loop->iteration }}</td>
                                     <td style="font-weight: 500;">{{ $gp->nama_event }}</td>
                                     <td style="font-size: 12px;">{{ $gp->start_date }} - {{ $gp->end_date }}</td>
                                     <td><span
@@ -782,7 +808,9 @@
                                             style="display: inline;">
                                             @csrf @method('DELETE')
                                             <button type="submit" class="btn-action btn-delete"
-                                                style="padding: 4px 8px; font-size: 14px;">Batal</button>
+                                                style="padding: 4px 8px; font-size: 14px;">
+                                                <i class="bx bx-trash"></i>
+                                            </button>
                                         </form>
                                     </td>
                                 </tr>
@@ -804,8 +832,8 @@
 
     {{-- ========== MODAL PREVIEW GAMBAR ========== --}}
     <div id="imagePreviewModal" class="modal-overlay" onclick="closeImagePreview()">
-        <div class="modal-content" onclick="event.stopPropagation()">
-            <img id="previewImg" src="" alt="Preview">
+        <div class="modal-content">
+            <img id="previewImg" src="" alt="Preview" onclick="event.stopPropagation()">
         </div>
     </div>
 
@@ -823,6 +851,7 @@
             document.getElementById('edit_penumpang').value = car.penumpang;
             document.getElementById('edit_transmisi').value = car.transmisi;
             document.getElementById('edit_bahan_bakar').value = car.bahan_bakar;
+            document.getElementById('edit_stok').value = car.stok;
 
 
             document.getElementById('edit_harga_biasa_mask').value = formatRupiah(car.harga_biasa.toString());

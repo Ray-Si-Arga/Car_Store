@@ -23,10 +23,9 @@
 
 @stack('scripts')
 
-{{-- Proses pemanggilan  di controller--}}
+{{-- Proses pemanggilan di controller--}}
 {{-- return redirect()->back()->with('toast', [
-    'status' => 'success',
-    'title'  => 'Berhasil!',
-    'text'   => 'Pesanan telah disimpan.',
+'status' => 'success',
+'title' => 'Berhasil!',
+'text' => 'Pesanan telah disimpan.',
 ]); --}}
-

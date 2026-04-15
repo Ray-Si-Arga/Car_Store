@@ -4,11 +4,15 @@
     <style>
         .table-container {
             background: #fff;
-            padding: 24px;
             border-radius: 12px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
             border: 1px solid #eef0f5;
             margin-top: 20px;
+            overflow: hidden;
+        }
+
+        .table-content {
+            padding: 24px;
         }
 
         .table-header {
@@ -58,7 +62,6 @@
             color: #92400e;
         }
 
-        /* Baris selang-seling (Zebra) */
         .custom-table tbody tr:hover {
             background-color: #f1f5f9;
             transition: 0.2s;
@@ -103,13 +106,10 @@
             justify-content: center;
         }
 
-
         /* Modal */
-        /* Styling Tambahan untuk Form di Dalam Modal */
         .form-group {
             margin-bottom: 15px;
             text-align: left;
-            /* Agar label tetap di kiri meskipun tabel center */
         }
 
         .form-group label {
@@ -152,7 +152,6 @@
 
         .modal-overlay {
             display: none;
-            /* Sembunyi secara default */
             position: fixed;
             z-index: 999;
             left: 0;
@@ -207,13 +206,153 @@
             }
         }
 
-        /* Tombol batal khusus modal */
         .btn-cancel-modal {
             background: #f1f5f9;
             border: none;
             padding: 10px 20px;
             border-radius: 8px;
             cursor: pointer;
+        }
+
+        /* ========== VERSI MOBILE - RESPONSIVE ========== */
+        @media (max-width: 768px) {
+            .table-content {
+                padding: 16px;
+            }
+
+            .table-header h3 {
+                font-size: 16px;
+            }
+
+            /* Membuat tabel menjadi scroll horizontal */
+            .table-container {
+                overflow-x: auto;
+            }
+
+            .custom-table {
+                min-width: 600px;
+            }
+
+            .custom-table th,
+            .custom-table td {
+                padding: 10px 12px;
+                font-size: 12px;
+            }
+
+            .custom-table td img {
+                width: 35px;
+                height: 35px;
+            }
+
+            .badge {
+                font-size: 10px;
+                padding: 3px 6px;
+            }
+
+            .btn-action {
+                padding: 4px 8px;
+                font-size: 14px;
+            }
+
+            /* Modal Mobile */
+            .modal-content {
+                max-width: 90%;
+                margin: 16px;
+                padding: 20px;
+                max-height: 85vh;
+                overflow-y: auto;
+            }
+
+            .modal-header h3 {
+                font-size: 16px;
+            }
+
+            .form-group label {
+                font-size: 13px;
+            }
+
+            .form-control {
+                padding: 8px 10px;
+                font-size: 13px;
+            }
+
+            .btn-save,
+            .btn-cancel-modal {
+                padding: 8px 16px;
+                font-size: 13px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .table-content {
+                padding: 12px;
+            }
+
+            .custom-table {
+                min-width: 550px;
+            }
+
+            .custom-table th,
+            .custom-table td {
+                padding: 8px 10px;
+                font-size: 11px;
+            }
+
+            .custom-table td img {
+                width: 30px;
+                height: 30px;
+            }
+
+            .btn-action {
+                padding: 3px 6px;
+                font-size: 12px;
+            }
+
+            /* Modal Mobile Kecil */
+            .modal-content {
+                padding: 16px;
+            }
+
+            .modal-header {
+                margin-bottom: 16px;
+            }
+
+            .form-group {
+                margin-bottom: 12px;
+            }
+
+            .form-group label {
+                font-size: 12px;
+            }
+
+            .form-control {
+                padding: 6px 8px;
+                font-size: 12px;
+            }
+
+            .modal-footer {
+                margin-top: 20px;
+                flex-wrap: wrap;
+            }
+
+            .btn-save,
+            .btn-cancel-modal {
+                flex: 1;
+                text-align: center;
+                padding: 8px 12px;
+                font-size: 12px;
+            }
+        }
+
+        /* Landscape mode untuk mobile */
+        @media (max-width: 768px) and (orientation: landscape) {
+            .modal-content {
+                max-height: 80vh;
+            }
+
+            .custom-table {
+                min-width: 650px;
+            }
         }
     </style>
 
@@ -223,60 +362,64 @@
     </x-page-header>
 
     <div class="table-container">
-        <div class="table-header">
-            <h3 style="font-size: 18px;">Daftar Pengguna</h3>
+        <div class="table-content">
+            <div class="table-header">
+                <h3 style="font-size: 18px;">Daftar Pengguna</h3>
+            </div>
+
+            <table class="custom-table">
+                <thead style="text-align: center;">
+                    <tr>
+                        <th>No</th>
+                        <th>Avatar</th>
+                        <th>Nama Lengkap</th>
+                        <th>Email</th>
+                        <th>Role</th>
+                        <th>Dibuat Pada</th>
+                        <th>Aksi</th>
+                    </tr>
+                </thead>
+                <tbody style="text-align: center;">
+                    @foreach($users as $index => $user)
+                        <tr>
+                            <td>{{ $users->firstItem() + $loop->index }}</td>
+                            <td>
+                                <img src="{{ $user->avatar ?? asset('images/profile.webp') }}" alt="Avatar"
+                                    style="width: 50px; height: 50px; object-fit: cover; border-radius: 50%;">
+                            </td>
+                            <td style="font-weight: 500;">{{ $user->name }}</td>
+                            <td>{{ $user->email }}</td>
+                            <td>
+                                <span class="badge {{ $user->role == 'admin' ? 'badge-admin' : 'badge-customer' }}">
+                                    {{ strtoupper($user->role) }}
+                                </span>
+                            </td>
+                            <td>{{ $user->created_at->format('d M Y') }}</td>
+                            <td>
+                                <div class="action-container">
+                                    <a onclick="openDetailModal({{ json_encode($user) }})" class="btn-action btn-edit"
+                                        title="Detail User">
+                                        <i class="bx bx-info-circle"></i>
+                                    </a>
+
+                                    <form action="{{ route('admin.delete', $user->id) }}" method="POST"
+                                        onsubmit="return confirm('Yakin ingin dihapus?')">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn-action btn-delete" title="Hapus User">
+                                            <i class="bx bx-trash"></i>
+                                        </button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
         </div>
 
-        <table class="custom-table">
-            <thead style="text-align: center;">
-                <tr>
-                    <th>No</th>
-                    <th>Avatar</th>
-                    <th>Nama Lengkap</th>
-                    <th>Email</th>
-                    <th>Role</th>
-                    <th>Dibuat Pada</th>
-                    <th>Aksi</th>
-                </tr>
-            </thead>
-            <tbody style="text-align: center;">
-                @foreach($users as $index => $user)
-                    <tr>
-                        <td>{{ $index + 1 }}</td>
-                        <td>
-                            <img src="{{ $user->avatar ?? asset('images/profile.webp') }}" alt="Avatar"
-                                style="width: 50px; height: 50px; object-fit: cover; border-radius: 50%;">
-                        </td>
-                        <td style="font-weight: 500;">{{ $user->name }}</td>
-                        <td>{{ $user->email }}</td>
-                        <td>
-                            <span class="badge {{ $user->role == 'admin' ? 'badge-admin' : 'badge-customer' }}">
-                                {{ strtoupper($user->role) }}
-                            </span>
-                        </td>
-                        <td>{{ $user->created_at->format('d M Y') }}</td>
-                        <td>
-                            <div class="action-container">
-                                <a onclick="openDetailModal({{ json_encode($user) }})" class="btn-action btn-edit"
-                                    title="Detail User">
-                                   <i class="bx bx-info-circle"></i>
-                                </a>
-
-                                <form action="{{ route('admin.delete', $user->id) }}" method="POST"
-                                    onsubmit="return confirm('Yakin ingin dihapus?')">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="btn-action btn-delete" title="Hapus User">
-                                        <i class="bx bx-trash"></i>
-                                    </button>
-                                </form>
-                            </div>
-
-                        </td>
-                    </tr>
-                @endforeach
-            </tbody>
-        </table>
+        {{-- Pagination --}}
+        {{ $users->links('components.paginate') }}
     </div>
 
     {{-- Modal Detail --}}
@@ -307,12 +450,14 @@
 
                 <div class="form-group">
                     <label>Nama Orang Terdekat</label>
-                    <input type="text" name="nama_orang_terdekat" id="detail_nama_orang_terdekat" class="form-control" disabled>
+                    <input type="text" name="nama_orang_terdekat" id="detail_nama_orang_terdekat" class="form-control"
+                        disabled>
                 </div>
 
                 <div class="form-group">
                     <label>Alamat Orang Terdekat</label>
-                    <input type="text" name="alamat_orang_terdekat" id="detail_alamat_orang_terdekat" class="form-control" disabled>
+                    <input type="text" name="alamat_orang_terdekat" id="detail_alamat_orang_terdekat" class="form-control"
+                        disabled>
                 </div>
 
                 <div class="form-group">
@@ -344,7 +489,6 @@
 
             form.action = `/admin/put/${user.id}`;
 
-            // Menampilkan modal
             modal.style.display = 'flex';
         }
 

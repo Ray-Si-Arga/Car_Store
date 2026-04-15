@@ -12,7 +12,7 @@ class ProfileController extends Controller
     /**
      * Update technical information for accountability.
      */
-    public function updateTechnicalInfo(Request $request)
+    public function updateInfo(Request $request)
     {
         $request->validate([
             'nama_orang_terdekat' => 'required|string|max:255',

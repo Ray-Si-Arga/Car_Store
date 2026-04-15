@@ -20,6 +20,7 @@ class Car extends Model
         'penumpang',
         'transmisi',
         'bahan_bakar',
+        'stok',
     ];
 
     // Relasi ke foto

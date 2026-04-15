@@ -12,13 +12,53 @@ use Illuminate\Http\Request;
 class CarController extends Controller
 {
 
-    public function index()
+    public function index(Request $request)
     {
-        $cars = Car::with([
+        $query = Car::with([
             'images' => function ($q) {
                 $q->where('is_primary', true);
             }
-        ])->get();
+        ]);
+
+        if (!$request->has('harga')) {
+            $query->latest();
+        }
+
+        // Filter by Kasta
+        if ($request->has('kasta') && $request->kasta != '') {
+            $query->where('kasta', $request->kasta);
+        }
+
+        // Filter by Transmisi
+        if ($request->has('transmisi') && $request->transmisi != '') {
+            $query->where('transmisi', $request->transmisi);
+        }
+
+        $cars = $query->get();
+
+        // Sort by Harga (Since harga_aktif is an accessor, sort the collection)
+        if ($request->has('harga') && $request->harga != '') {
+            if ($request->harga == 'low') {
+                $cars = $cars->sortBy('harga_aktif');
+            } elseif ($request->harga == 'high') {
+                $cars = $cars->sortByDesc('harga_aktif');
+            }
+        }
+
+        // Paginasi
+        $perPage = 8;
+        $currentPage = (int) ($request->input('page', 1));
+
+        $offset = ($currentPage - 1) * $perPage;
+        $currentItems = $cars->slice($offset, $perPage)->values();
+
+        $cars = new \Illuminate\Pagination\LengthAwarePaginator(
+            $currentItems,
+            $cars->count(),
+            $perPage,
+            $currentPage,
+            ['path' => $request->url(), 'query' => $request->query()]
+        );
 
         $globalPricings = GlobalPricing::all();
 
@@ -43,6 +83,7 @@ class CarController extends Controller
             'penumpang' => $request->penumpang,
             'transmisi' => $request->transmisi,
             'bahan_bakar' => $request->bahan_bakar,
+            'stok' => $request->stok,
         ]);
 
         // 2. Simpan Foto (Maksimal 4)
@@ -61,6 +102,28 @@ class CarController extends Controller
         return redirect()->back()->with('success', 'Mobil berhasil ditambahkan!');
     }
 
+    // update mobil
+    public function update(Request $request, $id)
+    {
+        $car = Car::findOrFail($id);
+
+        $car->update([
+            'nama_mobil' => $request->nama_mobil,
+            'plat_nomor' => $request->plat_nomor,
+            'kasta' => $request->kasta,
+            'harga_biasa' => $request->harga_biasa,
+            'harga_weekend' => $request->harga_weekend ?? $request->harga_biasa,
+            'status' => $request->status ?? $car->status,
+            'penumpang' => $request->penumpang,
+            'transmisi' => $request->transmisi,
+            'bahan_bakar' => $request->bahan_bakar,
+            'stok' => $request->stok,
+        ]);
+
+        return redirect()->back()->with('success', 'Data mobil berhasil diperbarui!');
+    }
+
+    // update stok mobil
     // Hapus mobil beserta foto-fotonya di dalam database dan di file image public
     public function destroy($id)
     {
@@ -77,23 +140,5 @@ class CarController extends Controller
         return redirect()->back()->with('success', 'Data Berhasil Dihapus');
     }
 
-    // update mobil
-    public function update(Request $request, $id)
-    {
-        $car = Car::findOrFail($id);
 
-        $car->update([
-            'nama_mobil' => $request->nama_mobil,
-            'plat_nomor' => $request->plat_nomor,
-            'kasta' => $request->kasta,
-            'harga_biasa' => $request->harga_biasa,
-            'harga_weekend' => $request->harga_weekend ?? $request->harga_biasa,
-            'status' => $request->status ?? $car->status,
-            'penumpang' => $request->penumpang,
-            'transmisi' => $request->transmisi,
-            'bahan_bakar' => $request->bahan_bakar,
-        ]);
-
-        return redirect()->back()->with('success', 'Data mobil berhasil diperbarui!');
-    }
 }

@@ -147,15 +147,18 @@
 
         /* Badge colors based on kasta */
         .kasta-badge[data-kasta="Economy"] {
-            color: #166534;
+            background: #166534;
+            color: white;
         }
 
         .kasta-badge[data-kasta="Family"] {
-            color: #92400e;
+            background: #92400e;
+            color: white;
         }
 
         .kasta-badge[data-kasta="Luxury"] {
-            color: #4338ca;
+            background: #4338ca;
+            color: white;
         }
 
         .car-detail-body {
@@ -373,6 +376,15 @@
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
         }
 
+        .btn-submit:disabled,
+        .btn-submit.is-loading {
+            background-color: var(--saas-gray-300);
+            color: var(--saas-gray-600);
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
         /* Responsive */
         @media (max-width: 968px) {
             .booking-grid {
@@ -475,7 +487,7 @@
             <div class="card-wrapper">
                 <div class="card-saas">
                     <div class="form-card-body">
-                        <form action="{{ route('customer.booking.store') }}" method="POST">
+                        <form id="bookingForm" action="{{ route('customer.booking.store') }}" method="POST">
                             @csrf
                             <input type="hidden" name="car_id" value="{{ $car->id }}">
 
@@ -510,9 +522,9 @@
                                 <div class="form-group">
                                     <label class="form-label">Tanggal Mulai</label>
                                     <div class="input-wrapper">
-                                        <input type="date" name="tanggal_mulai" id="tanggal_mulai"
+                                        <input type="datetime-local" name="tanggal_mulai" id="tanggal_mulai"
                                             class="input-field @error('tanggal_mulai') is-invalid @enderror"
-                                            value="{{ old('tanggal_mulai', date('Y-m-d')) }}" required>
+                                            value="{{ old('tanggal_mulai', date('Y-m-d\TH:i')) }}" required>
                                     </div>
                                     @error('tanggal_mulai') <div class="error-feedback">{{ $message }}</div> @enderror
                                 </div>
@@ -520,9 +532,9 @@
                                 <div class="form-group">
                                     <label class="form-label">Tanggal Kembali</label>
                                     <div class="input-wrapper">
-                                        <input type="date" name="tanggal_kembali" id="tanggal_kembali"
+                                        <input type="datetime-local" name="tanggal_kembali" id="tanggal_kembali"
                                             class="input-field @error('tanggal_kembali') is-invalid @enderror"
-                                            value="{{ old('tanggal_kembali', date('Y-m-d', strtotime('+1 day'))) }}"
+                                            value="{{ old('tanggal_kembali', date('Y-m-d\TH:i', strtotime('+1 day'))) }}"
                                             required>
                                     </div>
                                     @error('tanggal_kembali') <div class="error-feedback">{{ $message }}</div> @enderror
@@ -568,8 +580,6 @@
                 if (tglSewa.value && tglKembali.value) {
                     const start = new Date(tglSewa.value);
                     const end = new Date(tglKembali.value);
-                    start.setHours(0, 0, 0, 0);
-                    end.setHours(0, 0, 0, 0);
 
                     const diffTime = end - start;
                     const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
@@ -588,7 +598,27 @@
             tglSewa.addEventListener('change', hitungTotal);
             tglKembali.addEventListener('change', hitungTotal);
             hitungTotal();
+
+            // Handle Form Submit - Disable button only if valid
+            const form = document.getElementById('bookingForm');
+            form.addEventListener('submit', function () {
+                const btn = this.querySelector('.btn-submit');
+                disableButton(btn);
+            });
         });
+
+        function disableButton(element) {
+            if (!element) return;
+
+            // Gunakan setTimeout 0 agar browser sempat memproses submission form 
+            // sebelum tombol benar-benar dimatikan (disabled).
+            setTimeout(() => {
+                element.disabled = true;
+                element.classList.add('is-loading');
+            }, 0);
+
+            element.innerHTML = "Memproses... <i class='bx bx-loader-alt bx-spin'></i>";
+        }
     </script>
 
 @endsection

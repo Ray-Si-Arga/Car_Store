@@ -5,13 +5,15 @@ use App\Http\Controllers\Auth\SocialiteController;
 use App\Http\Controllers\Car\CarController;
 use App\Http\Controllers\Dashboard\DashboardController;
 use App\Http\Controllers\LandingPage\LandingPageController;
-use App\Http\Controllers\Notification\NotifController;
+use App\Http\Controllers\Notification\NotificationController;
 use App\Http\Controllers\Booking\Admin\BookingAdminController;
 use App\Http\Controllers\Booking\Customer\CustomerBookingController;
 use App\Http\Controllers\User\UserController;
 use App\Http\Controllers\User\ProfileController;
 use App\Http\Controllers\PricingGlobe\PricingController;
 use Illuminate\Support\Facades\Route;
+use App\Mail\PaymentKirim;
+use App\Mail\PaymentSetujui;
 
 
 Route::get('/', function () {
@@ -46,6 +48,17 @@ Route::post('/logout', [AuthController::class, 'logout'])
 Route::get('/registrasi', [AuthController::class, 'registrasi'])->name('registrasi');
 Route::post('/registrasi/aksi', [AuthController::class, 'registrasi_aksi'])->name('registrasi.aksi');
 
+// /**
+//  * ============ Rute Email ============ 
+//  */
+// Route::get('/email/payment-kirim', function () {
+//     return new PaymentKirim();
+// });
+
+// Route::get('/email/payment-setujui', function () {
+//     return new PaymentSetujui();
+// });
+
 /**
  * ========= Customer Routes ==========
  */
@@ -65,8 +78,8 @@ Route::group(['middleware' => ['cek.login', 'auth']], function () {
     Route::get('/customer/riwayat/{id}/bayar', [CustomerBookingController::class, 'formBayar'])->name('customer.riwayat.bayar');
     Route::post('/customer/riwayat/{id}/upload-bukti', [CustomerBookingController::class, 'uploadBukti'])->name('customer.riwayat.upload');
 
-    // Profile Technical Info
-    Route::post('/customer/profile/complete', [ProfileController::class, 'updateTechnicalInfo'])->name('customer.profile.complete');
+    // Rute Profile
+    Route::post('/customer/profile/complete', [ProfileController::class, 'updateInfo'])->name('customer.profile.complete');
 });
 
 
@@ -93,8 +106,8 @@ Route::middleware(['admin'])->group(function () {
     Route::post('/admin/car/global-price', [PricingController::class, 'pricing_globe'])->name('admin.global-pricing.store');
     Route::delete('/admin/car/global-price/{id}', [PricingController::class, 'destroy_price'])->name('admin.global-pricing.delete');
 
-
-    Route::get('/admin/notification', [NotifController::class, 'index'])->name('admin.notification');
+    Route::get('/admin/notification', [NotificationController::class, 'index'])->name('admin.notification');
+    Route::delete('/admin/notification/{id}', [NotificationController::class, 'destroy'])->name('admin.notification.delete');
 
     // Admin Booking
     Route::get('/admin/bookings', [BookingAdminController::class, 'adminIndex'])->name('admin.bookings');

@@ -14,7 +14,7 @@ class UserController extends Controller
     // Menampilkan page user
     public function index()
     {
-        $users = User::orderBy('created_at', 'desc')->get();
+        $users = User::orderBy('created_at', 'desc')->paginate(5);
 
         return view('admin.user.index', compact('users'));
     }
@@ -22,31 +22,37 @@ class UserController extends Controller
     public function edit_aksi(Request $request, $id)
     {
         $request->validate([
-            'name' => 'required|string|max:225',
-            'email' => 'required|email|unique:users,email,' . $id,
             'role' => 'required|in:admin,customer',
         ]);
 
         $user = User::findOrFail($id);
-        $user -> update([
-            'name' => $request->name,
-            'email' => $request->email,
+        $user->update([
             'role' => $request->role,
         ]);
 
-        return back()->with('success', 'User Berhasil Di Edit');
-
+        return back()->with('toast', [
+            'type' => 'info',
+            'title' => $user->name,
+            'text' => 'Berhasil Di Edit'
+        ]);
     }
 
     public function delete($id)
     {
         $user = User::findOrFail($id);
         if ($user->id === auth()->id()) {
-            return back()->with('error', 'Admin Tidak Boleh Menghapus Dirinya');
+            return back()->with('toast', [
+                'type' => 'error',
+                'text' => 'Admin Tidak Boleh Menghapus Dirinya'
+            ]);
         }
 
         $user->delete();
 
-        return back()->with('success', 'Data Berhasil Dihapus');
+        return back()->with('toast', [
+            'type' => 'success',
+            'title' => $user->name ,
+            'text' => 'Data Berhasil Dihapus'
+        ]);
     }
 }

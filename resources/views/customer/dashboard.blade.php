@@ -13,6 +13,8 @@
             --saas-white: #ffffff;
             --saas-border: rgba(47, 75, 124, 0.08);
             --saas-shadow: 0 10px 30px rgba(47, 75, 124, 0.05);
+            --mobile-padding: 16px;
+            --mobile-gap: 12px;
         }
 
         .dashboard-wrapper {
@@ -271,6 +273,195 @@
             color: #cbd5e1;
             margin-bottom: 1.5rem;
         }
+
+        /* ========== VERSI MOBILE - RESPONSIVE DASHBOARD ========== */
+        @media (max-width: 768px) {
+            .dashboard-wrapper {
+                padding: 0;
+            }
+
+            /* Summary Grid - 2 kolom di mobile */
+            .summary-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 0.75rem;
+                margin-bottom: 1.5rem;
+            }
+
+            .stat-card {
+                padding: 0.875rem;
+                gap: 0.75rem;
+            }
+
+            .stat-icon {
+                width: 40px;
+                height: 40px;
+                font-size: 1.2rem;
+            }
+
+            .stat-info h4 {
+                font-size: 1rem;
+            }
+
+            .stat-info p {
+                font-size: 0.65rem;
+            }
+
+            /* Section Header */
+            .section-header {
+                margin-bottom: 1rem;
+            }
+
+            .section-title {
+                font-size: 0.95rem;
+            }
+
+            /* Rentals Grid - 1 kolom di mobile */
+            .rentals-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+
+            /* Card Image */
+            .card-img-wrapper {
+                height: 160px;
+            }
+
+            .status-overlay {
+                top: 0.75rem;
+                right: 0.75rem;
+                padding: 0.3rem 0.8rem;
+                font-size: 0.65rem;
+            }
+
+            /* Card Body */
+            .card-body {
+                padding: 1rem;
+            }
+
+            .car-name {
+                font-size: 1rem;
+            }
+
+            .car-plate {
+                font-size: 0.7rem;
+                margin-bottom: 0.75rem;
+            }
+
+            /* Timeline */
+            .rental-timeline {
+                padding: 0.75rem;
+                margin-bottom: 1rem;
+            }
+
+            .time-value {
+                font-size: 0.7rem;
+            }
+
+            .timeline-divider {
+                font-size: 1rem;
+            }
+
+            /* Card Footer */
+            .card-footer {
+                padding: 0.875rem 1rem;
+                flex-wrap: wrap;
+                gap: 0.75rem;
+            }
+
+            .est-label {
+                font-size: 0.7rem;
+            }
+
+            .est-value {
+                font-size: 0.9rem;
+            }
+
+            .btn-detail {
+                padding: 0.4rem 0.875rem;
+                font-size: 0.75rem;
+            }
+
+            /* Empty State */
+            .empty-state {
+                padding: 2rem 1rem;
+            }
+
+            .empty-icon {
+                font-size: 3rem;
+                margin-bottom: 1rem;
+            }
+
+            .empty-state h5 {
+                font-size: 1rem;
+            }
+
+            .empty-state p {
+                font-size: 0.8rem;
+            }
+        }
+
+        /* Untuk layar sangat kecil (max 480px) */
+        @media (max-width: 480px) {
+            .summary-grid {
+                gap: 0.5rem;
+            }
+
+            .stat-card {
+                padding: 0.75rem;
+            }
+
+            .stat-icon {
+                width: 36px;
+                height: 36px;
+                font-size: 1rem;
+            }
+
+            .stat-info h4 {
+                font-size: 0.9rem;
+            }
+
+            .stat-info p {
+                font-size: 0.6rem;
+            }
+
+            .card-img-wrapper {
+                height: 140px;
+            }
+
+            .rental-timeline {
+                padding: 0.6rem;
+            }
+
+            .time-value {
+                font-size: 0.65rem;
+            }
+
+            .card-footer {
+                flex-direction: column;
+                align-items: stretch;
+                text-align: center;
+            }
+
+            .btn-detail {
+                text-align: center;
+                justify-content: center;
+            }
+        }
+
+        /* Landscape mode untuk mobile */
+        @media (max-width: 768px) and (orientation: landscape) {
+            .summary-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+            .rentals-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .card-img-wrapper {
+                height: 140px;
+            }
+        }
     </style>
 
     <x-page-header>
@@ -314,8 +505,8 @@
                 <div class="empty-icon"><i class='bx bx-cloud-upload'></i></div>
                 <h5 style="color: var(--saas-primary); font-weight: 800;">Belum Ada Mobil Aktif</h5>
                 <p style="color: #64748b; font-size: 0.9rem;">Sepertinya Anda belum memiliki penyewaan yang sedang berjalan.</p>
-                <a href="{{ route('cars') }}" class="btn-detail"
-                    style="display: inline-block; margin-top: 1rem; padding: 0.8rem 1.5rem;">Cari Mobil Sekarang</a>
+                <a href="{{ route('customer.car') }}" class="btn-detail"
+                    style="display: inline-block; margin-top: 1rem; padding: 0.8rem 1.5rem;">Cari Mobil</a>
             </div>
         @else
             <div class="rentals-grid">
@@ -349,12 +540,14 @@
                             <div class="rental-timeline">
                                 <div class="timeline-item">
                                     <div class="time-label">Mulai</div>
-                                    <div class="time-value">{{ Carbon\Carbon::parse($booking->tanggal_mulai)->format('d M') }}</div>
+                                    <div class="time-value">{{ Carbon\Carbon::parse($booking->tanggal_mulai)->format('d M, H:i') }}
+                                    </div>
                                 </div>
                                 <div class="timeline-divider"><i class='bx bx-chevron-right'></i></div>
                                 <div class="timeline-item">
                                     <div class="time-label">Selesai</div>
-                                    <div class="time-value">{{ Carbon\Carbon::parse($booking->tanggal_kembali)->format('d M') }}
+                                    <div class="time-value">
+                                        {{ Carbon\Carbon::parse($booking->tanggal_kembali)->format('d M, H:i') }}
                                     </div>
                                 </div>
                             </div>
@@ -369,11 +562,18 @@
                                         Rp {{ number_format($booking->fine, 0, ',', '.') }}
                                     </div>
                                 @else
-                                    <div class="est-label">Estimasi Sisa Waktu</div>
-                                    <div class="est-value color-green countdown-timer" id="timer-{{ $booking->id }}"
-                                        data-deadline="{{ \Carbon\Carbon::parse($booking->tanggal_kembali)->format('Y-m-d H:i:s') }}">
-                                        {{ \Carbon\Carbon::parse($booking->tanggal_kembali)->diffForHumans(null, true) }}
-                                    </div>
+                                    @if($booking->status == 'dibayar')
+                                        <div class="est-label">Estimasi Sisa Waktu</div>
+                                        <div class="est-value color-green countdown-timer" id="timer-{{ $booking->id }}"
+                                            data-deadline="{{ \Carbon\Carbon::parse($booking->tanggal_kembali)->format('Y-m-d H:i:s') }}">
+                                            {{ \Carbon\Carbon::parse($booking->tanggal_kembali)->diffForHumans(null, true) }}
+                                        </div>
+                                    @elseif($booking->status == 'dibayar')
+                                        <div class="est-label">Status Verifikasi</div>
+                                        <div class="est-value" style="color: var(--saas-warning);">
+                                            Menunggu Persetujuan Admin
+                                        </div>
+                                    @endif
                                 @endif
                             </div>
                             <a href="{{ route('customer.riwayat') }}" class="btn-detail">Lihat Riwayat</a>

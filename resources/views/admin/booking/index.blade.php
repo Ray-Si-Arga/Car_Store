@@ -605,27 +605,6 @@
                 <x-slot:subtitle>Kelola pesanan masuk dan pantau performa bisnis Anda.</x-slot:subtitle>
 
                 <x-slot:actions>
-                    <div class="dropdown" id="statusDropdown">
-                        <button class="btn-outline-filter" type="button" id="dropdownBtn">
-                            <i class='bx bx-sort-alt-left me-1'></i>
-                            Status: <span id="selectedStatusLabel">
-                                {{ request('status', 'Semua') == 'all' ? 'Semua' : ucfirst(request('status', 'Semua')) }}
-                            </span>
-                            <i class='bx bx-chevron-down ms-1'></i>
-                        </button>
-                        <div class="dropdown-menu-custom">
-                            <a href="{{ route('admin.bookings') }}" class="dropdown-item">Semua Pesanan</a>
-                            <div class="dropdown-divider"></div>
-                            <a href="{{ route('admin.bookings', ['status' => 'pending']) }}"
-                                class="dropdown-item">Pending</a>
-                            <a href="{{ route('admin.bookings', ['status' => 'disetujui']) }}"
-                                class="dropdown-item">Disetujui</a>
-                            <a href="{{ route('admin.bookings', ['status' => 'dibayar']) }}"
-                                class="dropdown-item">Dibayar</a>
-                            <a href="{{ route('admin.bookings', ['status' => 'selesai']) }}"
-                                class="dropdown-item">Selesai</a>
-                        </div>
-                    </div>
                 </x-slot:actions>
                 {{-- Header & Filter --}}
                 <div class="d-flex flex-wrap justify-content-between align-items-center mb-4">
@@ -691,7 +670,8 @@
                     </div>
                     <div class="stat-content">
                         <div class="stat-label">Total Transaksi</div>
-                        <div class="stat-value" style="color: var(--navy);">{{ $bookings->where('status', 'selesai')->count() }}</div>
+                        <div class="stat-value" style="color: var(--navy);">
+                            {{ $bookings->where('status', 'selesai')->count() }}</div>
                         <div class="stat-unit">Keseluruhan Pemesanan</div>
                     </div>
                 </div>
@@ -721,11 +701,11 @@
                                         </div>
                                     </div>
                                     <span class="status-badge
-                                                                @if($booking->status == 'pending') bg-pending
-                                                                @elseif($booking->status == 'disetujui') bg-disetujui
-                                                                @elseif($booking->status == 'dibayar') bg-dibayar
-                                                                @elseif($booking->status == 'selesai') bg-selesai
-                                                                @else bg-default @endif">
+                                                                            @if($booking->status == 'pending') bg-pending
+                                                                            @elseif($booking->status == 'disetujui') bg-disetujui
+                                                                            @elseif($booking->status == 'dibayar') bg-dibayar
+                                                                            @elseif($booking->status == 'selesai') bg-selesai
+                                                                            @else bg-default @endif">
                                         {{ strtoupper($booking->status) }}
                                     </span>
                                 </div>
@@ -736,7 +716,8 @@
                                         <div class="info-label">Penyewa</div>
                                         <div class="info-value">
                                             <div class="avatar-initials">
-                                                {{ strtoupper(substr($booking->customer->name, 0, 2)) }}
+                                                <img src="{{ $booking->customer->avatar_url }}" alt="profile"
+                                                    class="w-100 h-100 object-fit-cover">
                                             </div>
                                             <span>{{ $booking->customer->name }}</span>
                                         </div>
@@ -778,6 +759,8 @@
                     @endforeach
                 </div>
             @endif
+
+            {{ $bookings->links('components.paginate') }}
 
         </div>
     </div>

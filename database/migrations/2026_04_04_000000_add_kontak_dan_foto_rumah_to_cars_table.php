@@ -13,11 +13,11 @@ return new class extends Migration {
         Schema::table('users', function (Blueprint $table) {
 
             // tambah kolom satu per satu
-            $table->string('nama_orang_terdekat')->after('avatar');
-            $table->text('alamat_orang_terdekat')->after('nama_orang_terdekat');
-            $table->string('no_telepon_terdekat')->after('alamat_orang_terdekat');
+            $table->string('nama_orang_terdekat')->nullable()->after('avatar');
+            $table->text('alamat_orang_terdekat')->nullable()->after('nama_orang_terdekat');
+            $table->string('no_telepon_terdekat')->nullable()->after('alamat_orang_terdekat');
             $table->string('foto_rumah')->nullable()->after('no_telepon_terdekat');
-            $table->string('ktp')->after('foto_rumah');
+            $table->string('ktp')->nullable()->after('foto_rumah');
         });
     }
 

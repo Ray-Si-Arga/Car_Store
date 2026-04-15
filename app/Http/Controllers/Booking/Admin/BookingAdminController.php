@@ -21,7 +21,7 @@ class BookingAdminController extends Controller
             $query->where('status', $request->status);
         }
 
-        $bookings = $query->latest()->get();
+        $bookings = $query->latest()->paginate(4);
 
         return view('admin.booking.index', compact('bookings'));
     }

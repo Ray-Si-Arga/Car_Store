@@ -740,31 +740,33 @@
 
             <!-- Right Column -->
             <div>
-                <!-- Payment Proof Card -->
-                <div class="card-wrapper mb-4">
-                    <div class="card-saas">
-                        <div class="card-body-custom">
-                            <h6 class="section-title">Bukti Pembayaran</h6>
+                @if($booking->bukti_bayar)
+                    <!-- Payment Proof Card -->
+                    <div class="card-wrapper mb-4">
+                        <div class="card-saas">
+                            <div class="card-body-custom">
+                                <h6 class="section-title">Bukti Pembayaran</h6>
 
-                            @if($booking->bukti_bayar)
-                                <div class="payment-proof">
-                                    <a href="{{ asset('storage/' . $booking->bukti_bayar) }}" target="_blank">
-                                        <img src="{{ asset('storage/' . $booking->bukti_bayar) }}" class="proof-image"
-                                            alt="Bukti Bayar">
-                                    </a>
-                                    <p class="info-label" style="margin-top: 0.75rem; text-align: center;">
-                                        <i class='bx bx-search-alt-2'></i> Klik gambar untuk memperbesar
-                                    </p>
-                                </div>
-                            @else
-                                <div class="empty-proof">
-                                    <i class='bx bx-receipt'></i>
-                                    <p>Belum ada bukti pembayaran.</p>
-                                </div>
-                            @endif
+                                @if($booking->bukti_bayar)
+                                    <div class="payment-proof">
+                                        <a href="{{ asset('storage/' . $booking->bukti_bayar) }}" target="_blank">
+                                            <img src="{{ asset('storage/' . $booking->bukti_bayar) }}" class="proof-image"
+                                                alt="Bukti Bayar">
+                                        </a>
+                                        <p class="info-label" style="margin-top: 0.75rem; text-align: center;">
+                                            <i class='bx bx-search-alt-2'></i> Klik gambar untuk memperbesar
+                                        </p>
+                                    </div>
+                                @else
+                                    <div class="empty-proof">
+                                        <i class='bx bx-receipt'></i>
+                                        <p>Belum ada bukti pembayaran.</p>
+                                    </div>
+                                @endif
+                            </div>
                         </div>
                     </div>
-                </div>
+                @endif
 
                 <!-- Admin Actions Card -->
                 <div class="card-wrapper">
@@ -778,7 +780,7 @@
                                         @csrf
                                         @method('PUT')
                                         <button type="submit" class="btn-approve">
-                                        Setujui Pesanan
+                                            Setujui Pesanan
                                         </button>
                                     </form>
                                     <button type="button" class="btn-reject" id="openRejectModal">

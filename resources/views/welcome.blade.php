@@ -643,9 +643,9 @@
                         <p>Nikmati perjalanan nyaman dengan armada mobil terbaik kami. Proses sewa cepat,
                             harga transparan, dan layanan 24 jam siap membantu Anda.</p>
                         <div class="hero-badges">
-                            <span class="hero-badge"><i class="fa-solid fa-shield-halved"></i> Terpercaya</span>
-                            <span class="hero-badge"><i class="fa-solid fa-clock"></i> 24 Jam</span>
-                            <span class="hero-badge"><i class="fa-solid fa-tag"></i> Transparan</span>
+                            <span class="hero-badge">Terpercaya</span>
+                            <span class="hero-badge"> 24 Jam</span>
+                            <span class="hero-badge"> Transparan</span>
                         </div>
                         <a href="/cars" class="cta-button">
                             <i class="fa-solid fa-car"></i> Lihat Mobil Kami
@@ -659,7 +659,7 @@
                             <h2>Terpercaya &amp; Terjangkau</h2>
                             <p>Jangan lewatkan kesempatan untuk sewa mobil dengan fasilitas lengkap dan harga terbaik !!</p>
                             <span class="banner-glass-badge">
-                                <i class="fa-solid fa-star"></i> Pilihan Terbaik
+                                Pilihan Terbaik
                             </span>
                         </div>
                     </div>
@@ -672,7 +672,7 @@
                 <div class="section-title" id='tentang'>
                     <span class="chip">Kenapa Kami?</span>
                     <h2>Keunggulan Layanan Kami</h2>
-                    <p>Kami hadir untuk memberikan pengalaman sewa mobil yang menyenangkan dan bebas khawatir</p>
+                    <p>Kami hadir untuk memberikan pengalaman sewa mobil yang menyenangkan dan bebas k2hawatir</p>
                 </div>
                 <div class="features-grid">
                     <div class="feature-item" data-aos="fade-up" data-aos-delay="100">
@@ -751,7 +751,7 @@
             {{-- Cara Sewa --}}
             <div class="section-card" data-aos="fade-up">
                 <div class="section-title">
-                    <span class="chip">📋 Panduan</span>
+                    <span class="chip">Panduan</span>
                     <h2>Cara Sewa Mobil</h2>
                     <p>Hanya 4 langkah mudah untuk mulai perjalanan Anda bersama kami</p>
                 </div>

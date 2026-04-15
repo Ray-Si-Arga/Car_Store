@@ -3,12 +3,13 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <link href="https://cdn.boxicons.com/3.0.8/fonts/basic/boxicons.min.css" rel="stylesheet">
 
     {{-- Judul Title --}}
     <title>@yield('title')</title>
+    @stack('styles')
 </head>
 
 <style>
@@ -19,6 +20,7 @@
         font-family: "Poppins", sans-serif;
     }
 
+    /* ========== SIDEBAR DEFAULT (DESKTOP) ========== */
     .sidebar {
         position: fixed;
         left: 0;
@@ -40,8 +42,6 @@
     }
 
     body.modal-open .home-section {
-        /* Konten utama biasanya sudah tertutup overlay modal */
-        /* Tapi kita beri sedikit darken tambahan agar konsisten */
         background: rgba(0, 0, 0, 0.1);
     }
 
@@ -122,8 +122,6 @@
         transition: all 0.4s ease;
         background: transparent;
     }
-
-    /* Pewarnaan pada sidebar yang harus diperbaiki */
 
     .sidebar li a:hover {
         background: #d6e6ef;
@@ -301,7 +299,6 @@
         top: 8px;
         left: 28px;
         background: #ef4444;
-        /* Merah cerah */
         color: white;
         font-size: 10px;
         font-weight: 700;
@@ -324,9 +321,265 @@
         height: 100% !important;
         display: block;
     }
+
+    /* ========== MOBILE HAMBURGER MENU (TOGGLE) ========== */
+    .mobile-header {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 60px;
+        background: white;
+        border-bottom: 1px solid #e5e7eb;
+        z-index: 101;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 16px;
+    }
+
+    .mobile-logo {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .mobile-logo img {
+        width: 40px;
+        height: 40px;
+        object-fit: contain;
+    }
+
+    .mobile-logo span {
+        font-weight: 700;
+        font-size: 16px;
+        color: var(--saas-primary, #2f4b7c);
+    }
+
+    .hamburger-btn {
+        background: none;
+        border: none;
+        font-size: 28px;
+        cursor: pointer;
+        color: #2f4b7c;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 44px;
+        height: 44px;
+        border-radius: 12px;
+        transition: 0.2s;
+    }
+
+    .hamburger-btn:hover {
+        background: #f1f5f9;
+    }
+
+    /* Mobile Sidebar Overlay */
+    .mobile-sidebar-overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 200;
+        transition: 0.3s ease;
+    }
+
+    /* Mobile Sidebar */
+    .mobile-sidebar {
+        position: fixed;
+        top: 0;
+        left: -280px;
+        width: 280px;
+        height: 100%;
+        background: white;
+        z-index: 201;
+        transition: left 0.3s ease;
+        box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+        overflow-y: auto;
+    }
+
+    .mobile-sidebar.open {
+        left: 0;
+    }
+
+    .mobile-sidebar .mobile-sidebar-header {
+        padding: 20px 16px;
+        border-bottom: 1px solid #e5e7eb;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .mobile-sidebar .mobile-sidebar-header h3 {
+        font-size: 18px;
+        font-weight: 700;
+        color: #2f4b7c;
+    }
+
+    .close-sidebar-btn {
+        background: none;
+        border: none;
+        font-size: 24px;
+        cursor: pointer;
+        color: #64748b;
+    }
+
+    .mobile-nav-list {
+        list-style: none;
+        padding: 16px 0;
+    }
+
+    .mobile-nav-list li {
+        margin: 4px 0;
+    }
+
+    .mobile-nav-list li a {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 12px 20px;
+        text-decoration: none;
+        color: #334155;
+        font-size: 15px;
+        font-weight: 500;
+        transition: 0.2s;
+    }
+
+    .mobile-nav-list li a:hover {
+        background: #d6e6ef;
+    }
+
+    .mobile-nav-list li a i {
+        font-size: 20px;
+        width: 28px;
+        color: #475569;
+    }
+
+    .mobile-nav-list .badge-notif-mobile {
+        background: #ef4444;
+        color: white;
+        font-size: 10px;
+        font-weight: 700;
+        min-width: 18px;
+        height: 18px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        margin-left: auto;
+    }
+
+    .mobile-profile {
+        border-top: 1px solid #e5e7eb;
+        padding: 16px 20px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-top: 20px;
+    }
+
+    .mobile-profile img {
+        width: 48px;
+        height: 48px;
+        border-radius: 12px;
+        object-fit: cover;
+    }
+
+    .mobile-profile-info .name {
+        font-weight: 700;
+        font-size: 14px;
+        color: #1e293b;
+    }
+
+    .mobile-profile-info .role {
+        font-size: 12px;
+        color: #64748b;
+    }
+
+    .mobile-logout {
+        margin-top: 16px;
+        padding: 12px 20px;
+        border-top: 1px solid #e5e7eb;
+    }
+
+    .mobile-logout button {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        background: none;
+        border: none;
+        width: 100%;
+        padding: 12px;
+        font-size: 15px;
+        font-weight: 500;
+        color: #ef4444;
+        cursor: pointer;
+        border-radius: 12px;
+    }
+
+    .mobile-logout button:hover {
+        background: #fee2e2;
+    }
+
+    /* ========== VERSI MOBILE - RESPONSIVE ========== */
+    @media (max-width: 768px) {
+
+        /* Sembunyikan sidebar default */
+        .sidebar {
+            display: none;
+        }
+
+        /* Tampilkan mobile header */
+        .mobile-header {
+            display: flex;
+        }
+
+        /* Home section menyesuaikan */
+        .home-section {
+            left: 0 !important;
+            width: 100% !important;
+            top: 60px;
+            height: calc(100vh - 60px);
+        }
+
+        .sidebar.open~.home-section {
+            left: 0 !important;
+            width: 100% !important;
+        }
+
+        .main {
+            padding: 16px;
+        }
+
+        .home-section .main {
+            margin: 0;
+            font-size: 18px;
+        }
+    }
+
+    /* Landscape mode */
+    @media (max-width: 768px) and (orientation: landscape) {
+        .mobile-sidebar {
+            width: 260px;
+        }
+
+        .home-section {
+            top: 55px;
+            height: calc(100vh - 55px);
+        }
+
+        .mobile-header {
+            height: 55px;
+        }
+    }
 </style>
 
 <body>
+    <!-- ================== Sidebar (Desktop) ================== -->
     <div class="sidebar">
         <div class="logo-details">
             <div class="logo_name">Halo {{ Auth::user()->name }}</div>
@@ -334,8 +587,6 @@
         </div>
         <ul class="nav-list">
             @if (Auth::user()->role == 'admin')
-
-                {{-- Dashboard Admin --}}
                 <li>
                     <a href="{{ route('admin.dashboard') }}">
                         <i class="bx bx-dashboard"></i>
@@ -343,26 +594,13 @@
                     </a>
                     <span class="tooltip">Dashboard</span>
                 </li>
-
-                {{-- User Admin --}}
-                <li>
-                    <a href="{{ route('admin.user') }}">
-                        <i class='bx bx-user'></i>
-                        <span class="links_name">User</span>
-                    </a>
-                    <span class="tooltip">User</span>
-                </li>
-
-                {{-- Notification Admin --}}
                 {{-- <li>
                     <a href="{{ route('admin.notification') }}">
                         <i class="bx bx-message-bubble-notification bx-flashing"></i>
                         <span class="links_name">Notification</span>
-                    </a> 
+                    </a>
                     <span class="tooltip">Notification</span>
                 </li> --}}
-
-                {{-- Mobil Admin --}}
                 <li>
                     <a href="{{ route('admin.car') }}">
                         <i class='bx bx-car'></i>
@@ -370,8 +608,6 @@
                     </a>
                     <span class="tooltip">Daftar Mobil</span>
                 </li>
-
-                {{-- Booking Admin --}}
                 <li>
                     <a href="{{ route('admin.bookings') }}">
                         <i class="bx bx-list-ul"></i>
@@ -382,9 +618,14 @@
                     </a>
                     <span class="tooltip">Daftar Booking</span>
                 </li>
+                <li>
+                    <a href="{{ route('admin.user') }}">
+                        <i class='bx bx-user'></i>
+                        <span class="links_name">User</span>
+                    </a>
+                    <span class="tooltip">User</span>
+                </li>
             @else
-
-                {{-- Dashboard Customer --}}
                 <li>
                     <a href="{{ route('customer.dashboard') }}">
                         <i class="bx bx-dashboard"></i>
@@ -392,8 +633,6 @@
                     </a>
                     <span class="tooltip">Dashboard</span>
                 </li>
-
-                {{-- Sewa Mobil --}}
                 <li>
                     <a href="{{ route('customer.car') }}">
                         <i class="bx bx-car"></i>
@@ -401,8 +640,6 @@
                     </a>
                     <span class="tooltip">Sewa Mobil</span>
                 </li>
-
-                {{-- Riwayat Pesanan --}}
                 <li>
                     <a href="{{ route('customer.riwayat') }}">
                         <i class="bx bx-history"></i>
@@ -412,7 +649,6 @@
                 </li>
             @endif
 
-            {{-- Profile User --}}
             <li class="profile">
                 <div class="profile-details">
                     <img src="{{ Auth::user()->avatar ?? asset('images/profile.webp')}}" alt="profileImg">
@@ -421,17 +657,114 @@
                         <div class="job">{{ ucfirst(Auth::user()->role) }}</div>
                     </div>
                 </div>
-
                 <form action="{{ route('logout') }}" method="POST">
                     @csrf
                     <button type="submit" style="cursor: pointer;">
                         <i class='bx bx-arrow-out-left-square-half' id="log_out"></i>
-
                     </button>
                     <span>Logout</span>
                 </form>
             </li>
         </ul>
+    </div>
+
+
+    {{-- =========================== Batas =========================== --}}
+
+
+    <!-- Mobile Header dengan Hamburger -->
+    <div class="mobile-header">
+        <button class="hamburger-btn" id="hamburgerBtn">
+            <i class='bx bx-menu'></i>
+        </button>
+    </div>
+
+    <!-- ================== Mobile Sidebar ================== -->
+    <div class="mobile-sidebar-overlay" id="mobileSidebarOverlay"></div>
+    <div class="mobile-sidebar" id="mobileSidebar">
+        <div class="mobile-sidebar-header">
+            <h3>Menu</h3>
+            <button class="close-sidebar-btn" id="closeSidebarBtn">
+                <i class='bx bx-x'></i>
+            </button>
+        </div>
+
+        <ul class="mobile-nav-list">
+            @if (Auth::user()->role == 'admin')
+                <li>
+                    <a href="{{ route('admin.dashboard') }}">
+                        <i class="bx bx-dashboard"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+                {{-- <li>
+                    <a href="{{ route('admin.notification') }}">
+                        <i class="bx bx-message-bubble-notification"></i>
+                        <span>Notification</span>
+                    </a>
+                </li> --}}
+                <li>
+                    <a href="{{ route('admin.car') }}">
+                        <i class='bx bx-car'></i>
+                        <span>Daftar Mobil</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ route('admin.bookings') }}">
+                        <i class="bx bx-list-ul"></i>
+                        <span>Daftar Booking</span>
+                        @if(isset($pendingCount) && $pendingCount > 0)
+                            <span class="badge-notif-mobile">{{ $pendingCount }}</span>
+                        @endif
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ route('admin.user') }}">
+                        <i class='bx bx-user'></i>
+                        <span>User</span>
+                    </a>
+                </li>
+            @else
+                <li>
+                    <a href="{{ route('customer.dashboard') }}">
+                        <i class="bx bx-dashboard"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ route('customer.car') }}">
+                        <i class="bx bx-car"></i>
+                        <span>Sewa Mobil</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ route('customer.riwayat') }}">
+                        <i class="bx bx-history"></i>
+                        <span>Riwayat Pesanan</span>
+                    </a>
+                </li>
+            @endif
+        </ul>
+
+        <!-- Profile Section Mobile -->
+        <div class="mobile-profile">
+            <img src="{{ Auth::user()->avatar ?? asset('images/profile.webp') }}" alt="profileImg">
+            <div class="mobile-profile-info">
+                <div class="name">{{ Auth::user()->name }}</div>
+                <div class="role">{{ ucfirst(Auth::user()->role) }}</div>
+            </div>
+        </div>
+
+        <!-- Logout Mobile -->
+        <div class="mobile-logout">
+            <form action="{{ route('logout') }}" method="POST">
+                @csrf
+                <button type="submit">
+                    <i class='bx bx-log-out'></i>
+                    <span>Logout</span>
+                </button>
+            </form>
+        </div>
     </div>
 
     <section class="home-section">
@@ -443,37 +776,83 @@
     {{-- Alert / Toast Global --}}
     @include('components.alert')
 
-    {{-- Sidebar dan Chart--}}
+    {{-- Sidebar dan Chart --}}
     <script>
+        // ========== DESKTOP SIDEBAR TOGGLE ==========
         let sidebar = document.querySelector(".sidebar");
         let closeBtn = document.querySelector("#btn");
-        // let searchBtn = document.querySelector(".bx-search");
 
-        closeBtn.addEventListener("click", () => {
-            sidebar.classList.toggle("open");
-            menuBtnChange();
+        if (closeBtn) {
+            closeBtn.addEventListener("click", () => {
+                sidebar.classList.toggle("open");
+                menuBtnChange();
 
-            setTimeout(() => {
-                if (typeof highcharts !== 'undefined') {
-                    Highcharts.charts.forEach(chart => {
-                        if (chart) {
-                            chart.reflow();
-                        }
-                    });
-                }
-            }, 500);
-        });
+                setTimeout(() => {
+                    if (typeof highcharts !== 'undefined') {
+                        Highcharts.charts.forEach(chart => {
+                            if (chart) {
+                                chart.reflow();
+                            }
+                        });
+                    }
+                }, 500);
+            });
+        }
 
         function menuBtnChange() {
-            if (sidebar.classList.contains("open")) {
-                closeBtn.classList.replace("bx-menu", "bx-menu-right");
-            } else {
-                closeBtn.classList.replace("bx-menu-right", "bx-menu");
+            if (sidebar && closeBtn) {
+                if (sidebar.classList.contains("open")) {
+                    closeBtn.classList.replace("bx-menu", "bx-menu-right");
+                } else {
+                    closeBtn.classList.replace("bx-menu-right", "bx-menu");
+                }
             }
         }
 
-        menuBtnChange();
+        if (sidebar && closeBtn) {
+            menuBtnChange();
+        }
+
+        // ========== MOBILE SIDEBAR TOGGLE ==========
+        const hamburgerBtn = document.getElementById('hamburgerBtn');
+        const mobileSidebar = document.getElementById('mobileSidebar');
+        const mobileOverlay = document.getElementById('mobileSidebarOverlay');
+        const closeSidebarBtn = document.getElementById('closeSidebarBtn');
+
+        function openMobileSidebar() {
+            mobileSidebar.classList.add('open');
+            mobileOverlay.style.display = 'block';
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeMobileSidebar() {
+            mobileSidebar.classList.remove('open');
+            mobileOverlay.style.display = 'none';
+            document.body.style.overflow = '';
+        }
+
+        if (hamburgerBtn) {
+            hamburgerBtn.addEventListener('click', openMobileSidebar);
+        }
+
+        if (closeSidebarBtn) {
+            closeSidebarBtn.addEventListener('click', closeMobileSidebar);
+        }
+
+        if (mobileOverlay) {
+            mobileOverlay.addEventListener('click', closeMobileSidebar);
+        }
+
+        // Tutup sidebar saat layar di-resize ke desktop
+        window.addEventListener('resize', function () {
+            if (window.innerWidth > 768) {
+                if (mobileSidebar && mobileSidebar.classList.contains('open')) {
+                    closeMobileSidebar();
+                }
+            }
+        });
     </script>
+    @stack('scripts')
 </body>
 
 </html>
